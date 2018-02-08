@@ -12,7 +12,7 @@
 			super(300, 200, 60, false);
 			
 			// Scale by 200%, resulting in a 600x400 display.
-			FP.screen.scale = 2;		
+			FP.screen.scale = 4;		
 			FP.screen.color = Colors.WHITE;
 			
 			// Console for debugging

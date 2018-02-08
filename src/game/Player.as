@@ -21,8 +21,8 @@ package game
 		/**
 		 * Player graphic
 		 */
-		[Embed(source='../../assets/player.png')] private const PLAYER:Class;
-		public var sprPlayer:Spritemap = new Spritemap(PLAYER, 8, 17);	
+		[Embed(source='../../assets/walking_spritesheet.png')] private const PLAYER:Class;
+		public var sprPlayer:Spritemap = new Spritemap(PLAYER, 32, 17);	
 		
 		/**
 		 * Sound
@@ -78,11 +78,11 @@ package game
 			if (Input.released("X"))
 			{
 				sndWalking.stop();
-				var playerDying:PlayerDying = new PlayerDying;
-				FP.world.add(playerDying);
-				playerDying.x = x;
-				playerDying.y = y;
-				FP.world.remove(this);
+				//var playerDying:PlayerDying = new PlayerDying;
+				//FP.world.add(playerDying);
+				//playerDying.x = x;
+				//playerDying.y = y;
+				//FP.world.remove(this);
 			}
 		}
 		

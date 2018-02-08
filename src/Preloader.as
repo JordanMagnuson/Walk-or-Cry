@@ -11,7 +11,7 @@
 	import flash.text.TextField;
 	import flash.utils.getDefinitionByName;
 	
-	[SWF(width = "600", height = "400")]
+	[SWF(width = "1200", height = "800")]
 	
 	public class Preloader extends MovieClip 
 	{
