@@ -91,8 +91,9 @@ package rooms
 			add(new Day(this, false));
 			
 			
-			// Player
+			// Player and baby.
 			add(new Player);
+			add(new Baby);
 			
 			// Starting text
 			add(new textPress);
