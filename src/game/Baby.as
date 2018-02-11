@@ -2,6 +2,7 @@ package game
 {
 	import flash.filesystem.File;
 	import net.flashpunk.Entity;
+	import net.flashpunk.World;
 	import net.flashpunk.graphics.Spritemap;
 	import net.flashpunk.tweens.misc.Alarm;
 	import net.flashpunk.tweens.sound.SfxFader;
@@ -9,14 +10,17 @@ package game
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.FP;
 	import net.flashpunk.Sfx;
+	import rooms.MyWorld;
 	
 	public class Baby extends Entity
 	{
 		public static const DEFAULT_CRY_INTERVAL:Number = 7;
+		public static const DEFAULT_COO_INTERVAL:Number = 1;
 		
 		public var isCrying:Boolean = false;
 		public var cryInterval:Number = DEFAULT_CRY_INTERVAL;
 		public var cryAlarm:Alarm = new Alarm(DEFAULT_CRY_INTERVAL, cry);		
+		public var cooAlarm:Alarm = new Alarm(DEFAULT_COO_INTERVAL, coo);
 		
 		/**
 		 * Sound
@@ -86,18 +90,20 @@ package game
 			// Build baby sound array.
 			for (var j:int = 1; j <= 24; j++) 
 			{
-				if (i < 10) 
+				if (j < 10) 
 				{
-					babySoundArray[i-1] = new Sfx(this["SND_BABY_0" + i]);
+					babySoundArray[j-1] = new Sfx(this["SND_BABY_0" + j]);
 				}
 				else 
 				{
-					babySoundArray[i-1] = new Sfx(this["SND_BABY_" + i]);
+					babySoundArray[j-1] = new Sfx(this["SND_BABY_" + j]);
 				}
 			}
 			
 			trace('baby created');
 			addTween(cryAlarm);
+			addTween(cooAlarm);
+			cooAlarm.start();
 			//startCryingAlarm.active = false;		
 		}
 		
@@ -105,18 +111,11 @@ package game
 		{
 			super.update();
 			//trace('sndCryingHard.volume:' + sndCryingHard.volume);
-			if (!Player.walking && !isCrying) 
+			if ((FP.world as MyWorld).time != 'night' && !Player.walking && !isCrying) 
 			{
 				//trace('should start crying');
 				startCrying();
 			}
-			
-			if (Player.walking && isCrying) 
-			{
-				//trace('stop crying');
-				stopCrying();
-				//cryingFader.fadeTo(0, 3);
-			} 
 			
 			//if (Player.walking && !babySoundPlaying()) {
 				//trace('should play baby sound');
@@ -131,19 +130,47 @@ package game
 			cryAlarm.start();
 		}
 		
+		public function coo():void {
+			trace('coo (maybe)');
+			if ((FP.world as MyWorld).time != 'night' && !isCrying)
+			{
+				if (FP.random < 0.25 && !babySoundPlaying()) {
+					trace('yes play coo sound');
+					var sound:Sfx = playRandomBabySound();
+				}
+				
+			}			
+			cooAlarm.reset(DEFAULT_COO_INTERVAL);
+		}
+		
 		public function cry():void {
 			trace('cry');
 			if (isCrying)
 			{
-				cryInterval -= 0.5;
+				if (!Player.walking)
+				{
+					// Not walking: cry more.
+					cryInterval -= 0.5;
+					if (cryInterval < 0.5) {
+						cryInterval = 0.5;
+					}
+				}
+				else 
+				{
+					// Walking: cry less.
+					cryInterval += 1;
+					if (cryInterval > DEFAULT_CRY_INTERVAL/2) {
+						stopCrying();
+						return;
+					}
+				}
 				var sound:Sfx = playRandomCryingSound();
 				if (cryInterval < sound.length) {
 					cryAlarm.reset(sound.length);
 				}
 				else {
 					cryAlarm.reset(cryInterval);
-				}
-				
+				}			
 				trace('cryInterval: ' + cryInterval);
 			}
 		}
@@ -189,13 +216,14 @@ package game
 			return sound;
 		}		
 		
-		public function playRandomBabySound(vol:Number = 1):void 
+		public function playRandomBabySound(vol:Number = 1):Sfx 
 		{
 			//trace('baby sound array length: ' + babySoundArray.length);
 			var idx:int = Math.floor(Math.random() * babySoundArray.length);
 			trace(idx);
 			var sound:Sfx = babySoundArray[idx];		
 			sound.play(vol);
+			return sound;
 		}
 		
 		//public static function checkFileExists(input:String):Boolean {
