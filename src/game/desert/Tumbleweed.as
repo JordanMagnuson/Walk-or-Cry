@@ -5,6 +5,7 @@ package game.desert
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Spritemap;
+	import game.Player;
 	
 	public class Tumbleweed extends Item
 	{	
@@ -37,6 +38,12 @@ package game.desert
 		{
 			super.update();
 			spriteMap.play("tumble");
+			
+			// Make it move even when player is not walking.
+			if (!Player.walking) 
+			{
+				x -= (Player.SPEED / 100);
+			}
 		}
 	}
 }

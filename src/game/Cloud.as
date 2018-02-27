@@ -4,6 +4,7 @@ package game
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	import rooms.MyWorld;
+	import game.Player;
 	
 	public class Cloud extends Item
 	{	
@@ -60,7 +61,13 @@ package game
 			
 			if (MyWorld.fourthFrame == 4)
 			{
-				x -= 1;
+				//x -= 1;
+				if (Player.walking) {
+					x -= 1;
+				}
+				else {
+					x -= 0.2;
+				}
 			}
 
 			
