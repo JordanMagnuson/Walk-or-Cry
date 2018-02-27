@@ -64,7 +64,7 @@ package game
 				sndWalking.loop(0.5);
 			}
 			
-			if (Input.check("X"))
+			if (Input.check("X") || Input.mouseDown)
 			//if (true) 
 			{
 				Player.walking = true;
