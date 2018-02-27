@@ -17,10 +17,15 @@ package game
 		public static const DEFAULT_CRY_INTERVAL:Number = 7;
 		public static const DEFAULT_COO_INTERVAL:Number = 1;
 		
-		public var isCrying:Boolean = false;
 		public var cryInterval:Number = DEFAULT_CRY_INTERVAL;
 		public var cryAlarm:Alarm = new Alarm(DEFAULT_CRY_INTERVAL, cry);		
-		public var cooAlarm:Alarm = new Alarm(DEFAULT_COO_INTERVAL, coo);
+		public var cooAlarm:Alarm = new Alarm(DEFAULT_COO_INTERVAL, chanceOfCoo);
+		
+		public var state:int;
+		public const STATE_AWAKE:int = 1;
+		public const STATE_ASLEEP:int = 2;
+		public const STATE_CRYING:int = 3;
+		public const STATE_ALARMED:int = 4;
 		
 		/**
 		 * Sound
@@ -101,21 +106,86 @@ package game
 			}
 			
 			trace('baby created');
+			state = STATE_AWAKE;
 			addTween(cryAlarm);
 			addTween(cooAlarm);
 			cooAlarm.start();
+			cryAlarm.start();
 			//startCryingAlarm.active = false;		
 		}
 		
 		override public function update():void 
 		{
 			super.update();
+			trace('state: ' + state);
 			//trace('sndCryingHard.volume:' + sndCryingHard.volume);
-			if ((FP.world as MyWorld).time != 'night' && !Player.walking && !isCrying) 
+			
+			// STATE_AWAKE
+			// -------------------------------------------------------
+			checkState:if (state == STATE_AWAKE) 
 			{
-				//trace('should start crying');
-				startCrying();
+
+				// Change state?
+				changeState:if ((FP.world as MyWorld).time == 'night')
+				{
+					state = STATE_ASLEEP;
+					break checkState;
+				}
+				else if (!Player.walking)
+				{
+					state = STATE_CRYING;
+					break checkState;
+				}
+				
+				// Do this state.
+				if (!cooAlarm.active) {
+					cooAlarm.reset(DEFAULT_COO_INTERVAL);
+					cooAlarm.active = true;
+				}
 			}
+			
+			// STATE_ASLEEP
+			// -------------------------------------------------------			
+			else if (state == STATE_ASLEEP)
+			{
+				// Change state?
+				changeState:if ((FP.world as MyWorld).time == 'day')
+				{
+					state = STATE_AWAKE;
+					break checkState;
+				}
+				
+				// Do this state.	
+				
+			}
+			
+			// STATE_CRYING
+			// -------------------------------------------------------	
+			else if (state == STATE_CRYING)
+			{
+				if (!cryAlarm.active) 
+				{
+					cryInterval = DEFAULT_CRY_INTERVAL;
+					cryAlarm.reset(DEFAULT_CRY_INTERVAL);
+					cryAlarm.active = true;
+				}
+			}
+			
+			
+			//if ((FP.world as MyWorld).time == 'night') 
+			//{
+				//state = STATE_ASLEEP;
+			//}
+			//else
+			//{
+				//
+			//}
+			//
+			//if ((FP.world as MyWorld).time != 'night' && !Player.walking && state != STATE_CRYING) 
+			//{
+				////trace('should start crying');
+				//startCrying();
+			//}
 			
 			//if (Player.walking && !babySoundPlaying()) {
 				//trace('should play baby sound');
@@ -126,61 +196,61 @@ package game
 		public function startCrying(vol:Number = 1):void
 		{
 			trace('startCrying');
-			isCrying = true;
+			state = STATE_CRYING;
 			cryAlarm.start();
 		}
 		
-		public function coo():void {
+		public function chanceOfCoo():void {
 			trace('coo (maybe)');
-			if ((FP.world as MyWorld).time != 'night' && !isCrying)
+			if (state == STATE_AWAKE)
 			{
 				if (FP.random < 0.25 && !babySoundPlaying()) {
 					trace('yes play coo sound');
 					var sound:Sfx = playRandomBabySound();
 				}
-				
+				cooAlarm.reset(DEFAULT_COO_INTERVAL);
 			}			
-			cooAlarm.reset(DEFAULT_COO_INTERVAL);
+			else {
+				cooAlarm.active = false;
+			}
+			
 		}
 		
 		public function cry():void {
 			trace('cry');
-			if (isCrying)
+			if (!Player.walking)
 			{
-				if (!Player.walking)
-				{
-					// Not walking: cry more.
-					cryInterval -= 0.5;
-					if (cryInterval < 0.5) {
-						cryInterval = 0.5;
-					}
+				// Not walking: cry more.
+				cryInterval -= 0.5;
+				if (cryInterval < 0.5) {
+					cryInterval = 0.5;
 				}
-				else 
-				{
-					// Walking: cry less.
-					cryInterval += 1;
-					if (cryInterval > DEFAULT_CRY_INTERVAL/2) {
-						stopCrying();
-						return;
-					}
-				}
-				var sound:Sfx = playRandomCryingSound();
-				if (cryInterval < sound.length) {
-					cryAlarm.reset(sound.length);
-				}
-				else {
-					cryAlarm.reset(cryInterval);
-				}			
-				trace('cryInterval: ' + cryInterval);
 			}
-		}
-		
-		public function stopCrying():void 
-		{
-			trace('stopCrying');
-			isCrying = false;
-			cryInterval = DEFAULT_CRY_INTERVAL;
-		}		
+			else 
+			{
+				// Walking: cry less.
+				cryInterval += 1;
+				
+				// Stop crying.
+				if (cryInterval > DEFAULT_CRY_INTERVAL/2) {
+					trace('stopCrying');
+					state = STATE_AWAKE;
+					cryInterval = DEFAULT_CRY_INTERVAL;
+					cryAlarm.active = false;
+					return;
+				}
+			}
+			
+			// Play sound and reset alarm.
+			var sound:Sfx = playRandomCryingSound();
+			if (cryInterval < sound.length) {
+				cryAlarm.reset(sound.length);
+			}
+			else {
+				cryAlarm.reset(cryInterval);
+			}			
+			trace('cryInterval: ' + cryInterval);
+		}	
 		
 		public function cryingSoundPlaying():Boolean
 		{
@@ -225,14 +295,5 @@ package game
 			sound.play(vol);
 			return sound;
 		}
-		
-		//public static function checkFileExists(input:String):Boolean {
-			//var testing_file:File = File.applicationStorageDirectory.resolvePath(input);
-			//
-			//if (testing_file.exists)
-				//return true;
-			//else
-				//return false;
-		//}		
 	}
 }
