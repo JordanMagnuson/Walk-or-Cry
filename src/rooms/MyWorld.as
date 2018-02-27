@@ -4,6 +4,8 @@ package rooms
 	import game.*;
 	import game.beach.Beach;
 	import game.plains.Plains;
+	import game.redwoods.Redwood;
+	import game.redwoods.Redwoods;
 	import game.snow.Snow;
 	import net.flashpunk.Entity;
 	import net.flashpunk.tweens.misc.Alarm;
@@ -54,7 +56,7 @@ package rooms
 		/**
 		 * Title text
 		 */
-		public var titleTextAlarm:Alarm;
+		public var titleTextAlarm:Alarm = new Alarm(10, showTitle);
 		
 		/**
 		 * Size of the room (so it knows where to keep the player + camera in).
@@ -69,8 +71,8 @@ package rooms
 			height = 200;		
 		
 			// Set location
-			location = FP.choose(new Desert, new Forest, new Snow, new Plains, new Beach);	
-			//location = new Desert;
+			//location = FP.choose(new Desert, new Forest, new Snow, new Plains, new Beach, new Redwoods);	
+			location = new Redwoods;
 			add(location);
 			changeLocationAlarm = new MyAlarm(CHANGE_LOCATION_TIME, changeLocationChance);
 			addTween(changeLocationAlarm);
@@ -96,7 +98,9 @@ package rooms
 			add(new Baby);
 			
 			// Starting text
-			add(new textPress);
+			addTween(titleTextAlarm);
+			titleTextAlarm.start();
+			//add(new textPress);
 			
 			// Start of game changes
 			location.gameStart(this);
@@ -228,7 +232,9 @@ package rooms
 		
 		public function showTitle():void
 		{
-			add(new textJordan);
+			if (!Player.startedWalking) {
+				add(new textPress);
+			}
 		}
 
 	}

@@ -17,6 +17,7 @@ package game
 		public var animSpeed:Number;
 		
 		public static var walking:Boolean = false;
+		public static var startedWalking:Boolean = false;
 		
 		/**
 		 * Player graphic
@@ -68,6 +69,9 @@ package game
 			{
 				Player.walking = true;
 				sprPlayer.play("walk");
+				if (!startedWalking) {
+					startedWalking = true;
+				}
 			}
 			else
 			{

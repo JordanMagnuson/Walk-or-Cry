@@ -10,6 +10,7 @@ package game
 	
 	public class textPress extends Entity
 	{		
+		public static const FADE_IN_DURATION:Number = 3;
 		public static const FADE_OUT_DURATION:Number = 3;
 
 		public static var text:Text;
@@ -23,12 +24,13 @@ package game
 		{
 			text = new Text("Hold space to start walking.");
 			text.size = 8;
+			text.alpha = 0;
 			graphic = text;			
 			x = 20;
 			y = 100;
 			fadeTween = new ColorTween();
 			fadeTween.alpha = 1;
-			nextTextAlarm = new Alarm(2, nextText);
+			//nextTextAlarm = new Alarm(2, nextText);
 		}	
 		
 		override public function update():void
@@ -39,10 +41,23 @@ package game
 			if (Player.walking && started == false)
 			{
 				started = true;
-				FP.world.addTween(nextTextAlarm);
-				nextTextAlarm.start();
+				fadeOut();
+				//FP.world.addTween(nextTextAlarm);
+				//nextTextAlarm.start();
 			}
 		}
+		
+		override public function added():void
+		{
+			fadeIn();
+		}		
+		
+		public function fadeIn():void
+		{
+			fadeTween = new ColorTween();
+			addTween(fadeTween);		
+			fadeTween.tween(FADE_IN_DURATION, Colors.WHITE, Colors.WHITE, 0, 1);
+		}				
 		
 		public function nextText():void
 		{
