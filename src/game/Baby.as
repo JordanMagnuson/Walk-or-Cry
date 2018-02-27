@@ -14,18 +14,21 @@ package game
 	
 	public class Baby extends Entity
 	{
-		public static const DEFAULT_CRY_INTERVAL:Number = 7;
-		public static const DEFAULT_COO_INTERVAL:Number = 1;
-		
-		public var cryInterval:Number = DEFAULT_CRY_INTERVAL;
-		public var cryAlarm:Alarm = new Alarm(DEFAULT_CRY_INTERVAL, cry);		
-		public var cooAlarm:Alarm = new Alarm(DEFAULT_COO_INTERVAL, chanceOfCoo);
-		
+		// States.
 		public var state:int;
 		public const STATE_AWAKE:int = 1;
 		public const STATE_ASLEEP:int = 2;
 		public const STATE_CRYING:int = 3;
 		public const STATE_ALARMED:int = 4;
+		
+		// State contants.
+		public static const DEFAULT_CRY_INTERVAL:Number = 7;
+		public static const DEFAULT_COO_INTERVAL:Number = 1;		
+		
+		// State variables and alarms.
+		public var cryInterval:Number = DEFAULT_CRY_INTERVAL;
+		public var cryAlarm:Alarm = new Alarm(DEFAULT_CRY_INTERVAL, cry);		
+		public var cooAlarm:Alarm = new Alarm(DEFAULT_COO_INTERVAL, chanceOfCoo);		
 		
 		/**
 		 * Sound
@@ -156,13 +159,17 @@ package game
 				}
 				
 				// Do this state.	
-				
+				// (Sleeping = nothing to do)
 			}
 			
 			// STATE_CRYING
 			// -------------------------------------------------------	
 			else if (state == STATE_CRYING)
 			{
+				// Change state?
+				// Nothing to do: we check for change during alarm callback.
+				
+				// Do this state.
 				if (!cryAlarm.active) 
 				{
 					cryInterval = DEFAULT_CRY_INTERVAL;
@@ -170,36 +177,11 @@ package game
 					cryAlarm.active = true;
 				}
 			}
-			
-			
-			//if ((FP.world as MyWorld).time == 'night') 
-			//{
-				//state = STATE_ASLEEP;
-			//}
-			//else
-			//{
-				//
-			//}
-			//
-			//if ((FP.world as MyWorld).time != 'night' && !Player.walking && state != STATE_CRYING) 
-			//{
-				////trace('should start crying');
-				//startCrying();
-			//}
-			
-			//if (Player.walking && !babySoundPlaying()) {
-				//trace('should play baby sound');
-				//playRandomBabySound(0.5);
-			//}
 		}
-		
-		public function startCrying(vol:Number = 1):void
-		{
-			trace('startCrying');
-			state = STATE_CRYING;
-			cryAlarm.start();
-		}
-		
+
+		/**
+		 * STATE_AWAKE alarm callback.
+		 */		
 		public function chanceOfCoo():void {
 			trace('coo (maybe)');
 			if (state == STATE_AWAKE)
@@ -216,6 +198,9 @@ package game
 			
 		}
 		
+		/**
+		 * STATE_CRYING alarm callback.
+		 */
 		public function cry():void {
 			trace('cry');
 			if (!Player.walking)
