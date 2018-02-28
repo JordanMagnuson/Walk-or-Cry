@@ -19,7 +19,8 @@ package game
 		[Embed(source = '../../assets/snow/ground_snow.png')] private const GROUND_SNOW:Class;
 		[Embed(source = '../../assets/plains/ground_plains.png')] private const GROUND_PLAINS:Class;
 		[Embed(source = '../../assets/beach/ground.png')] private const GROUND_BEACH:Class;
-		[Embed(source = "../../assets/redwoods/ground_redwoods.png")] private const GROUNd_REDWOODS:Class;
+		[Embed(source = "../../assets/jungle/ground_jungle.png")] private const GROUND_JUNGLE:Class;
+		[Embed(source = "../../assets/redwoods/ground_redwoods.png")] private const GROUND_REDWOODS:Class;
 		public var image:Image;	
 		
 		/**
@@ -45,9 +46,12 @@ package game
 					break;		
 				case 'beach':
 					image = new Image(GROUND_BEACH);
-					break;		
+					break;	
+				case 'jungle':
+					image = new Image(GROUND_JUNGLE);
+					break;							
 				case 'redwoods':
-					image = new Image(GROUNd_REDWOODS);
+					image = new Image(GROUND_REDWOODS);
 					break;		
 			}
 			graphic = image;

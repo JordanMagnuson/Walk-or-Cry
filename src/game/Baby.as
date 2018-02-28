@@ -22,13 +22,15 @@ package game
 		public const STATE_ALARMED:int = 4;
 		
 		// State contants.
-		public static const DEFAULT_CRY_INTERVAL:Number = 7;
-		public static const DEFAULT_COO_INTERVAL:Number = 1;		
+		public static const DEFAULT_CRY_INTERVAL:Number = 6;
+		public static const DEFAULT_COO_INTERVAL:Number = 1;	
+		public static const DEFAULT_ZZZ_INTERVAL:Number = 1;
 		
 		// State variables and alarms.
 		public var cryInterval:Number = DEFAULT_CRY_INTERVAL;
 		public var cryAlarm:Alarm = new Alarm(DEFAULT_CRY_INTERVAL, cry);		
-		public var cooAlarm:Alarm = new Alarm(DEFAULT_COO_INTERVAL, chanceOfCoo);		
+		public var cooAlarm:Alarm = new Alarm(DEFAULT_COO_INTERVAL, chanceOfCoo);	
+		public var zzzAlarm:Alarm = new Alarm(DEFAULT_ZZZ_INTERVAL, releaseZZZ);
 		
 		/**
 		 * Sound
@@ -110,11 +112,19 @@ package game
 			
 			trace('baby created');
 			state = STATE_AWAKE;
+			//startCryingAlarm.active = false;		
+		}
+		
+		override public function added():void
+		{
 			addTween(cryAlarm);
 			addTween(cooAlarm);
+			addTween(zzzAlarm);
 			cooAlarm.start();
 			cryAlarm.start();
-			//startCryingAlarm.active = false;		
+			zzzAlarm.start();
+			cryInterval = 3;
+			cryAlarm.reset(cryInterval);			
 		}
 		
 		override public function update():void 
@@ -122,6 +132,9 @@ package game
 			super.update();
 			trace('state: ' + state);
 			//trace('sndCryingHard.volume:' + sndCryingHard.volume);
+			
+			x = Global.player.x + 14;
+			y = Global.player.y;
 			
 			// STATE_AWAKE
 			// -------------------------------------------------------
@@ -159,7 +172,11 @@ package game
 				}
 				
 				// Do this state.	
-				// (Sleeping = nothing to do)
+				if (!zzzAlarm.active) 
+				{
+					zzzAlarm.reset(DEFAULT_ZZZ_INTERVAL);
+					zzzAlarm.active = true;
+				}
 			}
 			
 			// STATE_CRYING
@@ -236,6 +253,20 @@ package game
 			}			
 			trace('cryInterval: ' + cryInterval);
 		}	
+		
+		public function releaseZZZ():void 
+		{
+			//var randX:Number = x + FP.choose( -1, 1) * FP.rand(5);
+			if (state == STATE_ASLEEP) 
+			{
+				FP.world.add(new Z(x, y - 18));
+				zzzAlarm.reset(DEFAULT_ZZZ_INTERVAL);
+			}
+			else 
+			{
+				zzzAlarm.active = false;
+			}
+		}
 		
 		public function cryingSoundPlaying():Boolean
 		{

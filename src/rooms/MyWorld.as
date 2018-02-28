@@ -3,6 +3,7 @@ package rooms
 	import flash.net.LocalConnection;
 	import game.*;
 	import game.beach.Beach;
+	import game.jungle.Jungle;
 	import game.plains.Plains;
 	import game.redwoods.Redwood;
 	import game.redwoods.Redwoods;
@@ -15,6 +16,7 @@ package rooms
 	import net.flashpunk.utils.Key;
 	import game.forest.Forest;
 	import game.desert.Desert;
+	import game.Global;
 	
 	public class MyWorld extends World
 	{
@@ -71,8 +73,8 @@ package rooms
 			height = 200;		
 		
 			// Set location
-			//location = FP.choose(new Desert, new Forest, new Snow, new Plains, new Beach, new Redwoods);	
-			location = new Redwoods;
+			location = FP.choose(new Forest, new Plains);	
+			//location = new Jungle;
 			add(location);
 			changeLocationAlarm = new MyAlarm(CHANGE_LOCATION_TIME, changeLocationChance);
 			addTween(changeLocationAlarm);
@@ -94,7 +96,7 @@ package rooms
 			
 			
 			// Player and baby.
-			add(new Player);
+			add(Global.player = new Player);
 			add(new Baby);
 			
 			// Starting text
@@ -163,7 +165,7 @@ package rooms
 			var newLocation:Location;
 			do 
 			{
-				newLocation = FP.choose(new Forest, new Desert, new Plains, new Snow, new Beach);
+				newLocation = FP.choose(new Forest, new Desert, new Plains, new Snow, new Beach, new Redwoods, new Jungle);
 				//newLocation = FP.choose(new Forest, new Beach);
 			} 
 			while (newLocation.type == this.location.type);

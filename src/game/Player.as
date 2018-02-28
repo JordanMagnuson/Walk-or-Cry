@@ -2,10 +2,12 @@ package game
 {
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Spritemap;
+	import net.flashpunk.tweens.misc.Alarm;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.FP;
 	import net.flashpunk.Sfx;
+	import rooms.MyWorld;
 	
 	public class Player extends Entity
 	{
@@ -18,6 +20,10 @@ package game
 		
 		public static var walking:Boolean = false;
 		public static var startedWalking:Boolean = false;
+		public static var sleeping:Boolean = false;
+		
+		public static const DEFAULT_ZZZ_INTERVAL:Number = 1;
+		public var zzzAlarm:Alarm = new Alarm(DEFAULT_ZZZ_INTERVAL, releaseZZZ);
 		
 		/**
 		 * Player graphic
@@ -37,6 +43,8 @@ package game
 			sprPlayer.add("stand", [0], 20, false);
 			animSpeed = Player.SPEED / 10;
 			sprPlayer.add("walk", [0, 1, 2, 3], animSpeed, true);
+			sprPlayer.add("sleep", [4], 0, false);
+			
 			graphic = sprPlayer;
 			sprPlayer.play("stand");
 			
@@ -56,6 +64,12 @@ package game
 			Input.define("X", Key.SPACE);
 		}
 		
+		override public function added():void 
+		{
+			addTween(zzzAlarm);	
+			zzzAlarm.start();
+		}
+		
 		override public function update():void 
 		{
 			super.update();
@@ -67,15 +81,29 @@ package game
 			if (Input.check("X") || Input.mouseDown)
 			//if (true) 
 			{
-				Player.walking = true;
+				walking = true;
+				sleeping = false;
 				sprPlayer.play("walk");
 				if (!startedWalking) {
 					startedWalking = true;
 				}
 			}
-			else
+			else {
+				walking = false;
+			}
+			
+			
+			if (!walking && (FP.world as MyWorld).time == 'night')
 			{
-				Player.walking = false;
+				sleeping = true;				
+			}
+			
+			if (sleeping)
+			{
+				sprPlayer.play("sleep");
+			}
+			else if (!walking)
+			{
 				sprPlayer.play("stand");
 			}
 			
@@ -90,5 +118,14 @@ package game
 			}
 		}
 		
+		public function releaseZZZ():void 
+		{
+			//var randX:Number = x + FP.choose( -1, 1) * FP.rand(5);
+			if (sleeping) 
+			{
+				FP.world.add(new Z(x + 5, y - 18));
+			}
+			zzzAlarm.reset(DEFAULT_ZZZ_INTERVAL);
+		}		
 	}
 }
