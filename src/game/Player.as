@@ -28,8 +28,10 @@ package game
 		/**
 		 * Player graphic
 		 */
-		[Embed(source='../../assets/walking_spritesheet.png')] private const PLAYER:Class;
-		public var sprPlayer:Spritemap = new Spritemap(PLAYER, 32, 17);	
+		//[Embed(source='../../assets/walking_spritesheet.png')] private const PLAYER:Class;
+		//public var sprPlayer:Spritemap = new Spritemap(PLAYER, 32, 17);
+		[Embed(source='../../assets/walking_frontpack_spritesheet.png')] private const PLAYER:Class;
+		public var sprPlayer:Spritemap = new Spritemap(PLAYER, 10, 17);			
 		
 		/**
 		 * Sound
@@ -123,7 +125,7 @@ package game
 			//var randX:Number = x + FP.choose( -1, 1) * FP.rand(5);
 			if (sleeping) 
 			{
-				FP.world.add(new Z(x + 5, y - 18));
+				FP.world.add(new Z(x + 6, y - 19));
 			}
 			zzzAlarm.reset(DEFAULT_ZZZ_INTERVAL);
 		}		
