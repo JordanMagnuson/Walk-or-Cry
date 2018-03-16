@@ -48,11 +48,11 @@ package game.snow
 				}
 				else if (creationNumber < 0.05)
 				{
-					FP.world.add(new FrozenRiver);
+					FP.world.add(new Igloo);
 				}					
 				else if (creationNumber < 0.09)
 				{
-					FP.world.add(new Igloo);
+					FP.world.add(new FrozenRiver);
 				}						
 				else if (creationNumber < 0.3)
 				{

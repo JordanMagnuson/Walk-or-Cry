@@ -17,8 +17,12 @@ package rooms
 	import game.forest.Forest;
 	import game.desert.Desert;
 	import game.Global;
-	import net.flashpunk.Sfx;
 	import flash.media.SoundMixer;
+	import game.beach.Castle;
+	import game.desert.Pyramids;
+	import game.forest.GiantPine;
+	import game.plains.FlowerTree;
+	import game.snow.SnowMan;
 	
 	public class MyWorld extends World
 	{
@@ -250,6 +254,11 @@ package rooms
 		public function restart():void
 		{
 			// Stop all sounds. See https://forums.adobe.com/thread/860720
+			Castle.seen = false;
+			Pyramids.seen = false;
+			GiantPine.seen = false;
+			FlowerTree.seen = false;
+			SnowMan.seen = false;
 			SoundMixer.stopAll();
 			FP.world = new MyWorld;
 		}
