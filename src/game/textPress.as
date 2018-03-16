@@ -49,6 +49,7 @@ package game
 		
 		override public function added():void
 		{
+			started = false;
 			fadeIn();
 		}		
 		

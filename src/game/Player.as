@@ -98,7 +98,7 @@ package game
 			}
 			
 			
-			if (!walking && (FP.world as MyWorld).time == 'night')
+			if (!walking && (FP.world as MyWorld).time == 'night' && startedWalking)
 			{
 				sleeping = true;				
 			}
