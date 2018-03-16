@@ -17,6 +17,8 @@ package rooms
 	import game.forest.Forest;
 	import game.desert.Desert;
 	import game.Global;
+	import net.flashpunk.Sfx;
+	import flash.media.SoundMixer;
 	
 	public class MyWorld extends World
 	{
@@ -115,6 +117,12 @@ package rooms
 		 */
 		override public function update():void 
 		{
+			
+			if (Input.pressed(Key.R)) 
+			{
+				restart();
+			}
+
 
 			// Testing
 			if (Input.pressed(Key.C))
@@ -165,7 +173,7 @@ package rooms
 			var newLocation:Location;
 			do 
 			{
-				newLocation = FP.choose(new Forest, new Desert, new Plains, new Snow, new Beach, new Redwoods, new Jungle);
+				newLocation = FP.choose(new Forest, new Desert, new Plains, new Snow, new Beach, new Redwoods);
 				//newLocation = FP.choose(new Forest, new Beach);
 			} 
 			while (newLocation.type == this.location.type);
@@ -238,7 +246,13 @@ package rooms
 				add(new textPress);
 			}
 		}
-
+		
+		public function restart():void
+		{
+			// Stop all sounds. See https://forums.adobe.com/thread/860720
+			SoundMixer.stopAll();
+			FP.world = new MyWorld;
+		}
 	}
 }
  
