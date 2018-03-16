@@ -22,7 +22,7 @@ package game
 		public const STATE_ALARMED:int = 4;
 		
 		// State contants.
-		public static const DEFAULT_CRY_INTERVAL:Number = 6;
+		public static const DEFAULT_CRY_INTERVAL:Number = 5;
 		public static const DEFAULT_COO_INTERVAL:Number = 1;	
 		public static const DEFAULT_ZZZ_INTERVAL:Number = 1;
 		
@@ -236,7 +236,7 @@ package game
 				cryInterval += 1;
 				
 				// Stop crying.
-				if (cryInterval > DEFAULT_CRY_INTERVAL) {
+				if (cryInterval > DEFAULT_CRY_INTERVAL + 1) {
 					trace('stopCrying');
 					state = STATE_AWAKE;
 					cryInterval = DEFAULT_CRY_INTERVAL;
