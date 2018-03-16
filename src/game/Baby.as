@@ -123,14 +123,16 @@ package game
 			cooAlarm.start();
 			cryAlarm.start();
 			zzzAlarm.start();
-			cryInterval = 3;
+			
+			// Stary crying right away.
+			cryInterval = 0.5;
 			cryAlarm.reset(cryInterval);			
 		}
 		
 		override public function update():void 
 		{
 			super.update();
-			trace('state: ' + state);
+			//trace('state: ' + state);
 			//trace('sndCryingHard.volume:' + sndCryingHard.volume);
 			
 			x = Global.player.x + 14;
@@ -234,7 +236,7 @@ package game
 				cryInterval += 1;
 				
 				// Stop crying.
-				if (cryInterval > DEFAULT_CRY_INTERVAL/2) {
+				if (cryInterval > DEFAULT_CRY_INTERVAL) {
 					trace('stopCrying');
 					state = STATE_AWAKE;
 					cryInterval = DEFAULT_CRY_INTERVAL;

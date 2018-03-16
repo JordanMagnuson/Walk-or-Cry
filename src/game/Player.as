@@ -68,6 +68,9 @@ package game
 		
 		override public function added():void 
 		{
+			Player.startedWalking = false;
+			Player.walking = false;
+			Player.sleeping = false;			
 			addTween(zzzAlarm);	
 			zzzAlarm.start();
 		}
