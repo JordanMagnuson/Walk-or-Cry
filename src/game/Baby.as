@@ -261,7 +261,12 @@ package game
 			//var randX:Number = x + FP.choose( -1, 1) * FP.rand(5);
 			if (state == STATE_ASLEEP) 
 			{
-				FP.world.add(new Z(x - 4, y - 13));
+				if (Global.babyType == "stroller") {
+					FP.world.add(new Z(x, y - 18));
+				}
+				else {
+					FP.world.add(new Z(x - 4, y - 13));
+				}
 				zzzAlarm.reset(DEFAULT_ZZZ_INTERVAL);
 			}
 			else 

@@ -28,10 +28,11 @@ package game
 		/**
 		 * Player graphic
 		 */
-		//[Embed(source='../../assets/walking_spritesheet.png')] private const PLAYER:Class;
-		//public var sprPlayer:Spritemap = new Spritemap(PLAYER, 32, 17);
-		[Embed(source='../../assets/walking_frontpack_spritesheet.png')] private const PLAYER:Class;
-		public var sprPlayer:Spritemap = new Spritemap(PLAYER, 10, 17);			
+		[Embed(source='../../assets/walking_spritesheet.png')] private const STROLLER:Class;
+		public var sprStroller:Spritemap = new Spritemap(STROLLER, 32, 17);
+		[Embed(source='../../assets/walking_frontpack_spritesheet.png')] private const FRONTPACK:Class;
+		public var sprFrontPack:Spritemap = new Spritemap(FRONTPACK, 10, 17);	
+		public var sprPlayer:Spritemap;
 		
 		/**
 		 * Sound
@@ -41,6 +42,13 @@ package game
 		
 		public function Player() 
 		{
+			if (Global.babyType == "stroller") {
+				sprPlayer = sprStroller;
+			}
+			else {
+				sprPlayer = sprFrontPack;
+			}
+			
 			// Graphic
 			sprPlayer.add("stand", [0], 20, false);
 			animSpeed = Player.SPEED / 10;
@@ -128,7 +136,12 @@ package game
 			//var randX:Number = x + FP.choose( -1, 1) * FP.rand(5);
 			if (sleeping) 
 			{
-				FP.world.add(new Z(x + 6, y - 19));
+				if (Global.babyType == "stroller") {
+					FP.world.add(new Z(x + 5, y - 18));
+				}
+				else {
+					FP.world.add(new Z(x + 6, y - 19));
+				}
 			}
 			zzzAlarm.reset(DEFAULT_ZZZ_INTERVAL);
 		}		
