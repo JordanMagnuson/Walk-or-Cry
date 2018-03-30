@@ -22,7 +22,7 @@ package game
 		
 		public function textPress() 
 		{
-			text = new Text("Hold B to start walking.");
+			text = new Text("Hold space to start walking.");
 			text.size = 8;
 			text.alpha = 0;
 			graphic = text;			
