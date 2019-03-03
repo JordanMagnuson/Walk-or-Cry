@@ -12,12 +12,12 @@
 			super(300, 200, 60, false);
 			
 			// Scale the screen.
-			FP.screen.scale = 5;	// 5 for 1920x1080
+			FP.screen.scale = 3;	// 5 for 1920x1080
 			FP.screen.color = Colors.WHITE;
 			
 			// Center the screen in Flash Player (this is only relevant when using stand alone flash player to play the game in fullscreen mode). 
-			FP.screen.x = (1920 - FP.width * FP.screen.scale) / 2;
-			FP.screen.y = (1080 - FP.height * FP.screen.scale) / 2;
+			FP.screen.x = (900 - FP.width * FP.screen.scale) / 2;
+			FP.screen.y = (600 - FP.height * FP.screen.scale) / 2;
 			
 			// Console for debugging
 			//FP.console.enable();					
