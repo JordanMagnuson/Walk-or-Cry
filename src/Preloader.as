@@ -13,7 +13,7 @@
 	import flash.utils.getDefinitionByName;
 	import flash.events.MouseEvent;
 	
-	[SWF(width = "900", height = "600")]
+	[SWF(width = "1920", height = "1080")]
 	
 	/**
 	 * ...
