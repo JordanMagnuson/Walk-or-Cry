@@ -21,6 +21,8 @@ package game
 		public static var walking:Boolean = false;
 		public static var startedWalking:Boolean = false;
 		public static var sleeping:Boolean = false;
+		public static var lastPressedKey:int = 0;
+		public static var lastPressedAgo:Number = 0;
 		
 		public static const DEFAULT_ZZZ_INTERVAL:Number = 1;
 		public var zzzAlarm:Alarm = new Alarm(DEFAULT_ZZZ_INTERVAL, releaseZZZ);
@@ -72,6 +74,9 @@ package game
 			
 			// Input
 			Input.define("X", Key.SPACE);
+			Input.define("A", Key.A);
+			Input.define("S", Key.S);
+			Input.define("D", Key.D);
 		}
 		
 		override public function added():void 
@@ -91,9 +96,26 @@ package game
 				sndWalking.loop(0.5);
 			}
 			
-			if (Input.check("X") || Input.mouseDown)
-			//if (true) 
+			// Force player to press alternate keys successively to "walk"
+			if (Input.pressed("A") && lastPressedKey != Key.A) {
+				lastPressedKey = Key.A;
+				lastPressedAgo = 0;
+			}
+			else if (Input.pressed("S") && lastPressedKey != Key.S) {
+				lastPressedKey = Key.S;
+				lastPressedAgo = 0;
+			}
+			else if (Input.pressed("D") && lastPressedKey != Key.D) {
+				lastPressedKey = Key.D;
+				lastPressedAgo = 0;
+			}			
+			else {
+				lastPressedAgo += FP.elapsed;
+			}
+			
+			if (lastPressedAgo == 0) 
 			{
+				trace(Input.keyString.substr(-1,1));
 				walking = true;
 				sleeping = false;
 				sprPlayer.play("walk");
@@ -101,10 +123,9 @@ package game
 					startedWalking = true;
 				}
 			}
-			else {
+			else if (lastPressedAgo > 0.6) {
 				walking = false;
 			}
-			
 			
 			if (!walking && (FP.world as MyWorld).time == 'night' && startedWalking)
 			{
