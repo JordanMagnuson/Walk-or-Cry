@@ -5,18 +5,18 @@
     <movie outputType="Application" />
     <movie input="" />
     <movie path="bin\WalkorCry-Air.swf" />
-    <movie fps="30" />
-    <movie width="800" />
-    <movie height="600" />
+    <movie fps="60" />
+    <movie width="300" />
+    <movie height="200" />
     <movie version="26" />
     <movie minorVersion="0" />
     <movie platform="AIR" />
-    <movie background="#FFFFFF" />
+    <movie background="#000000" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
-    <class path="ChevyRay-FlashPunk-8c4049e" />
+    <class path="flashpunk\ChevyRay-FlashPunk-8c4049e" />
   </classpaths>
   <!-- Build options -->
   <build>
