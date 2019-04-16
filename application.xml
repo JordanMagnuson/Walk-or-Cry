@@ -2,17 +2,17 @@
 <application xmlns="http://ns.adobe.com/air/application/26.0">
   <id>WalkorCry-Air</id>
   <versionNumber>1.0</versionNumber>
-  <filename>WalkorCry-Air</filename>
-  <name>Walk or Cry - Air</name>
+  <filename>Walking With Magnus</filename>
+  <name>Walking With Magnus</name>
   <initialWindow>
-    <title>Walk or Cry - Air</title>
+    <title>Walking With Magnus</title>
     <content>WalkorCry-Air.swf</content>
     <systemChrome>standard</systemChrome>
     <transparent>false</transparent>
     <visible>true</visible>
     <minimizable>true</minimizable>
     <maximizable>true</maximizable>
-    <resizable>true</resizable>
+    <resizable>false</resizable>
     <fullScreen>true</fullScreen>
   </initialWindow>
   <!-- 
