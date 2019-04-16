@@ -1,8 +1,11 @@
-﻿package  
+package  
 {
 	import net.flashpunk.*;
 	import rooms.*;
 	import game.*;
+	import flash.display.StageDisplayState;
+	import flash.display.StageScaleMode;
+	import flash.geom.Rectangle;
 	
 	public class Main extends Engine
 	{
@@ -19,6 +22,8 @@
 			FP.screen.x = (900 - FP.width * FP.screen.scale) / 2;
 			FP.screen.y = (600 - FP.height * FP.screen.scale) / 2;
 			
+			//FP.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+			
 			// Console for debugging
 			//FP.console.enable();					
 			
@@ -27,6 +32,10 @@
 		
 		override public function init():void
 		{
+			// Full screen
+			FP.stage.scaleMode = StageScaleMode.SHOW_ALL;
+			FP.stage.fullScreenSourceRect = new Rectangle(0, 0, 1920, 1080);
+			FP.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;				
 			super.init();
 		}
 	}
