@@ -97,18 +97,22 @@ package game
 			}
 			
 			// Force player to press alternate keys successively to "walk"
-			if (Input.pressed("A") && lastPressedKey != Key.A) {
-				lastPressedKey = Key.A;
+			//if (Input.pressed("A") && lastPressedKey != Key.A) {
+				//lastPressedKey = Key.A;
+				//lastPressedAgo = 0;
+			//}
+			//else if (Input.pressed("S") && lastPressedKey != Key.S) {
+				//lastPressedKey = Key.S;
+				//lastPressedAgo = 0;
+			//}
+			//else if (Input.pressed("D") && lastPressedKey != Key.D) {
+				//lastPressedKey = Key.D;
+				//lastPressedAgo = 0;
+			//}		
+			if (Input.pressed(Key.SPACE)) {
+				lastPressedKey = Key.SPACE;
 				lastPressedAgo = 0;
 			}
-			else if (Input.pressed("S") && lastPressedKey != Key.S) {
-				lastPressedKey = Key.S;
-				lastPressedAgo = 0;
-			}
-			else if (Input.pressed("D") && lastPressedKey != Key.D) {
-				lastPressedKey = Key.D;
-				lastPressedAgo = 0;
-			}			
 			else {
 				lastPressedAgo += FP.elapsed;
 			}
@@ -141,15 +145,15 @@ package game
 				sprPlayer.play("stand");
 			}
 			
-			if (Input.released("X"))
-			{
-				sndWalking.stop();
-				//var playerDying:PlayerDying = new PlayerDying;
-				//FP.world.add(playerDying);
-				//playerDying.x = x;
-				//playerDying.y = y;
-				//FP.world.remove(this);
-			}
+			//if (Input.released("X"))
+			//{
+				//sndWalking.stop();
+				////var playerDying:PlayerDying = new PlayerDying;
+				////FP.world.add(playerDying);
+				////playerDying.x = x;
+				////playerDying.y = y;
+				////FP.world.remove(this);
+			//}
 		}
 		
 		public function releaseZZZ():void 
