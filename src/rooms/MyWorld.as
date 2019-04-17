@@ -49,6 +49,7 @@ package rooms
 		public var changeLocationAlarm:MyAlarm;
 		
 		public var soundController:SoundController;
+		public var holdToRestart:Number = 0;
 		
 		/**
 		 * 'day', 'night', or 'sunset'
@@ -126,7 +127,16 @@ package rooms
 		override public function update():void 
 		{
 			
-			if (Input.pressed(Key.R)) 
+			if (Input.check(Key.R)) 
+			{
+				holdToRestart += FP.elapsed;
+			}
+			else 
+			{
+				holdToRestart = 0;
+			}
+			
+			if (holdToRestart >= 5)
 			{
 				restart();
 			}
