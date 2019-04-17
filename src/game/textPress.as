@@ -11,46 +11,38 @@ package game
 	public class textPress extends Entity
 	{		
 		public static const FADE_IN_DURATION:Number = 3;
-		public static const FADE_OUT_DURATION:Number = 3;
+		public static const FADE_OUT_DURATION:Number = 5;
 
 		public static var text:Text;
-		public static var fadeTween:ColorTween;
+		public static var fadeTween:ColorTween;		
 		
 		public static var nextTextAlarm:Alarm;
-		
-		public static var started:Boolean = false;
+		public static var fadeOutAlarm:Alarm;
 		
 		public function textPress() 
 		{
-			text = new Text("Hold space to start walking.");
-			text.size = 8;
+			text = new Text("Walking With Magnus");
+			text.size = 16;
 			text.alpha = 0;
 			graphic = text;			
 			x = 20;
-			y = 100;
+			y = 130;
 			fadeTween = new ColorTween();
 			fadeTween.alpha = 1;
-			//nextTextAlarm = new Alarm(2, nextText);
+			nextTextAlarm = new Alarm(3, nextText);
 		}	
 		
 		override public function update():void
 		{
 			super.update();
 			text.alpha = fadeTween.alpha;
-			
-			if (Player.walking && started == false)
-			{
-				started = true;
-				fadeOut();
-				//FP.world.addTween(nextTextAlarm);
-				//nextTextAlarm.start();
-			}
 		}
 		
 		override public function added():void
 		{
-			started = false;
 			fadeIn();
+			FP.world.addTween(nextTextAlarm);
+			nextTextAlarm.start();			
 		}		
 		
 		public function fadeIn():void
@@ -62,14 +54,15 @@ package game
 		
 		public function nextText():void
 		{
-			FP.world.add(new textLetGo(this));
+			FP.world.add(new textInstructions(this));
 		}
 		
 		public function fadeOut():void
 		{
+			removeTween(fadeTween);			
 			fadeTween = new ColorTween(destroy);
 			addTween(fadeTween);		
-			fadeTween.tween(FADE_OUT_DURATION, Colors.WHITE, Colors.WHITE, 1, 0);				
+			fadeTween.tween(FADE_OUT_DURATION, Colors.WHITE, Colors.WHITE, text.alpha, 0);				
 		}
 		
 		public function destroy():void

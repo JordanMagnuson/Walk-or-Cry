@@ -64,7 +64,7 @@ package rooms
 		/**
 		 * Title text
 		 */
-		public var titleTextAlarm:Alarm = new Alarm(10, showTitle);
+		public var titleTextAlarm:Alarm = new Alarm(3, showTitle);
 		
 		/**
 		 * Size of the room (so it knows where to keep the player + camera in).
@@ -79,7 +79,7 @@ package rooms
 			height = 200;		
 		
 			// Set location
-			location = FP.choose(new Forest, new Plains);	
+			location = FP.choose(new Forest, new Desert, new Plains, new Snow, new Beach, new Redwoods);
 			//location = new Jungle;
 			add(location);
 			changeLocationAlarm = new MyAlarm(CHANGE_LOCATION_TIME, changeLocationChance);
