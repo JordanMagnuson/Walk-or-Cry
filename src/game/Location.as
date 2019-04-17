@@ -115,7 +115,7 @@ package game
 		public function gameStartItem(world:World, item:Item):void
 		{
 			var myItem:Item = item;	
-			myItem.x = 150;				
+			myItem.x = 200;				
 			world.add(myItem);		
 		}
 		
