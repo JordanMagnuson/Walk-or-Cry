@@ -95,6 +95,10 @@ package game
 			{
 				sndWalking.loop(0.5);
 			}
+			else if (!Player.walking && sndWalking.playing)
+			{
+				sndWalking.stop();
+			}
 			
 			// Force player to press alternate keys successively to "walk"
 			if (Input.pressed("A") && lastPressedKey != Key.A) {
