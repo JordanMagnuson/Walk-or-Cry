@@ -149,7 +149,7 @@ package game
 					state = STATE_ASLEEP;
 					break checkState;
 				}
-				else if (!Player.walking)
+				else if (Player.timeSinceWalking > 1)
 				{
 					state = STATE_CRYING;
 					break checkState;
@@ -222,7 +222,7 @@ package game
 		 */
 		public function cry():void {
 			trace('cry');
-			if (!Player.walking)
+			if (Player.timeSinceWalking > 1)
 			{
 				// Not walking: cry more.
 				cryInterval -= 0.5;
