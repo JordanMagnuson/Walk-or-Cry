@@ -21,8 +21,9 @@ package game
 		public static var walking:Boolean = false;
 		public static var startedWalking:Boolean = false;
 		public static var sleeping:Boolean = false;
-		public static var lastPressedKey:int = 0;
+		public static var lastPressedKey:int = 0;	// LEGACY: no longer used.
 		public static var lastPressedAgo:Number = 0;
+		public static var timeSinceWalking:Number = 0;
 		
 		public static const DEFAULT_ZZZ_INTERVAL:Number = 1;
 		public var zzzAlarm:Alarm = new Alarm(DEFAULT_ZZZ_INTERVAL, releaseZZZ);
@@ -74,6 +75,7 @@ package game
 			
 			// Input
 			Input.define("X", Key.SPACE);
+			Input.define("W", Key.W);
 			Input.define("A", Key.A);
 			Input.define("S", Key.S);
 			Input.define("D", Key.D);
@@ -96,23 +98,22 @@ package game
 				sndWalking.loop(0.5);
 			}
 			
-			// Force player to press alternate keys successively to "walk"
-			//if (Input.pressed("A") && lastPressedKey != Key.A) {
-				//lastPressedKey = Key.A;
-				//lastPressedAgo = 0;
-			//}
-			//else if (Input.pressed("S") && lastPressedKey != Key.S) {
-				//lastPressedKey = Key.S;
-				//lastPressedAgo = 0;
-			//}
-			//else if (Input.pressed("D") && lastPressedKey != Key.D) {
-				//lastPressedKey = Key.D;
-				//lastPressedAgo = 0;
-			//}		
-			if (Input.pressed(Key.SPACE)) {
-				lastPressedKey = Key.SPACE;
+			// Force player to press and release (any of the following keys) to "walk"
+			if (Input.pressed("X")) {
+				lastPressedAgo = 0;
+			}			
+			else if (Input.pressed("W")) {
 				lastPressedAgo = 0;
 			}
+			else if (Input.pressed("A")) {
+				lastPressedAgo = 0;
+			}
+			else if (Input.pressed("S")) {
+				lastPressedAgo = 0;
+			}
+			else if (Input.pressed("D")) {
+				lastPressedAgo = 0;
+			}		
 			else {
 				lastPressedAgo += FP.elapsed;
 			}
@@ -127,8 +128,17 @@ package game
 					startedWalking = true;
 				}
 			}
-			else if (lastPressedAgo > 0.6) {
+			else if (lastPressedAgo > 1.5) {
 				walking = false;
+			}
+			
+			// Keep track of how long we hae been stopped.
+			// (Baby should only start crying if we've been stopped for a while)
+			if (walking) {
+				timeSinceWalking = 0;
+			}
+			else {
+				timeSinceWalking += FP.elapsed;
 			}
 			
 			if (!walking && (FP.world as MyWorld).time == 'night' && startedWalking)

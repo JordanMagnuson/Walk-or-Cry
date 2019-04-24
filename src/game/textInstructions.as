@@ -26,7 +26,7 @@ package game
 		public function textInstructions(prevText:Entity) 
 		{
 			this.prevText = prevText;
-			text = new Text("Put on headphones, hold stroller, and walk to begin.");
+			text = new Text("Put on headphones, grip stroller, and walk to start");
 			text.size = 8;
 			text.alpha = 0;
 			graphic = text;			
