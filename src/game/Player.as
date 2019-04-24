@@ -97,6 +97,10 @@ package game
 			{
 				sndWalking.loop(0.5);
 			}
+			else if (!Player.walking && sndWalking.playing)
+			{
+				sndWalking.stop();
+			}
 			
 			// Force player to press and release (any of the following keys) to "walk"
 			if (Input.pressed("X")) {
