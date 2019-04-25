@@ -16,7 +16,7 @@ package
 			super(300, 200, 60, false);
 			
 			// Scale the screen.
-			FP.screen.scale = 5;	// 5 for 1920x1080
+			FP.screen.scale = 5.4;	// 5 for 1920x1080
 			FP.screen.color = Colors.BLACK;
 			
 			// Center the screen in Flash Player (this is only relevant when using stand alone flash player to play the game in fullscreen mode). 
