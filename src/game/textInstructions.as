@@ -17,6 +17,7 @@ package game
 		public var fadeTween:ColorTween;
 		
 		public var nextTextAlarm:Alarm = new Alarm(1);
+		public var fadeOutAlarm:Alarm = new Alarm(5, fadeOut);
 		
 		public var fadingOut:Boolean = false;
 		//public var fadeOutAlarm:Alarm = new Alarm(3, fadeOut);
@@ -47,7 +48,8 @@ package game
 			if (Player.startedWalking && !fadingOut)
 			{
 				fadingOut = true;
-				fadeOut();
+				FP.world.addTween(fadeOutAlarm);
+				fadeOutAlarm.start();		
 			}			
 		}
 		
