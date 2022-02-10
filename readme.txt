@@ -1,5 +1,5 @@
 ========================================================================
-Walk or Die
+Walking With Magnus
 A Poem in Flash
 
 By Jordan Magnuson 
@@ -12,10 +12,13 @@ Libraries:	Flashpunk (flashpunk.net)
 
 Built in:	FlashDevelop (project file included)
 
-The source code for this game is completely free and open: use it
+The source code for this game is released under the MIT license: use it
 in whatever way you'd like. If you find it helpful, or make anything
 particular with it, I'd love to hear about it! Send an email to
 jm.magnuson@gmail.com.
+
+For help building and running this game from source, post-2020, see:
+https://github.com/JordanMagnuson/Resources-for-Building-AS3-Games
 
 
 ------------------------------------------------------------------------
