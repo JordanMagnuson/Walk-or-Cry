@@ -52,9 +52,12 @@ package game
 		
 		public function releaseMountain():void
 		{
-			//trace('release cloud');
-			mountainAlarm.reset(mountainReleaseTime);
-			FP.world.add(new Mountain);
+			if (Player.walking) 
+			{
+				//trace('release mountain');
+				mountainAlarm.reset(mountainReleaseTime);
+				FP.world.add(new Mountain);
+			}
 		}
 		
 		public function changeMountainDensity():void

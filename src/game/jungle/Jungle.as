@@ -51,7 +51,7 @@ package game.jungle
 			
 			creationNumber = FP.random;	
 			
-			if (FP.random > 0.05)
+			if (FP.random > 0.05 && Player.walking)
 			{
 				if (creationNumber < 0.1)
 				{

@@ -39,7 +39,7 @@ package game.snow
 			creationNumber = FP.random;	
 			
 			// Mid Distance
-			if (FP.random > 0.25)
+			if (FP.random > 0.25 && Player.walking)
 			{		
 				if (creationNumber < 0.01 && SnowMan.seen == false)
 				{
