@@ -75,11 +75,11 @@ package game.plains
 				// Night sounds
 				if ((FP.world as MyWorld).time == 'night')
 				{
-					if (creationNumber < 0.01 && !sndBee.playing)
-					{
-						sndBee.play(vol, pan);
-					}
-					else if (creationNumber < 0.06 && !sndCicadas.playing)
+					//if (creationNumber < 0.01 && !sndBee.playing)
+					//{
+						//sndBee.play(vol, pan);
+					//}
+					if (creationNumber < 0.06 && !sndCicadas.playing)
 					{
 						sndCicadas.play(vol, pan);
 					}								
