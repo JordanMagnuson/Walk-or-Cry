@@ -205,7 +205,7 @@ package game
 			trace('coo (maybe)');
 			if (state == STATE_AWAKE)
 			{
-				if (FP.random < 0.25 && !babySoundPlaying()) {
+				if (FP.random < 0.25 && !babySoundPlaying() && !cryingSoundPlaying()) {
 					trace('yes play coo sound');
 					var sound:Sfx = playRandomBabySound();
 				}
