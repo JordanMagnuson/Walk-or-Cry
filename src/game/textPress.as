@@ -21,7 +21,7 @@ package game
 		
 		public function textPress() 
 		{
-			text = new Text("Walking With Magnus");
+			text = new Text("With Magnus to Norway");
 			text.size = 16;
 			text.alpha = 0;
 			graphic = text;			
