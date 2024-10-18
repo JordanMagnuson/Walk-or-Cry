@@ -105,6 +105,10 @@ package rooms
 			add(Global.player = new Player);
 			add(new Baby);
 			
+			// Interaction checker.
+			add(new InteractionChecker);
+			InteractionChecker.timePassed = 0;
+			
 			// Starting text
 			addTween(titleTextAlarm);
 			titleTextAlarm.start();
@@ -260,6 +264,7 @@ package rooms
 			FlowerTree.seen = false;
 			SnowMan.seen = false;
 			SoundMixer.stopAll();
+			Player.startedWalking = false;
 			FP.world = new MyWorld;
 		}
 	}
