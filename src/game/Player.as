@@ -118,9 +118,14 @@ package game
 				lastPressedAgo += FP.elapsed;
 			}
 			
+			// Walking?
+			if (Global.testing)
+			{
+				lastPressedAgo = 0;
+			}
 			if (lastPressedAgo == 0) 
 			{
-				trace(Input.keyString.substr(-1,1));
+				//trace(Input.keyString.substr(-1,1));
 				walking = true;
 				sleeping = false;
 				sprPlayer.play("walk");

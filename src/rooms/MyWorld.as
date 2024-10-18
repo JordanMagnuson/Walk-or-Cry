@@ -33,6 +33,20 @@ package rooms
 		public const CHANGE_LOCATION_TIME:Number = 4;
 		
 		/**
+		 * Norway stuff: spend a certain amount of time in each of these "countries"
+		 * on the way to Norway, which dictates possible locations.
+		 * Countries = 'california' ; 'mexico' ; 'oregon' ; 'usa' ; 'norway'
+		 * 
+		 * TODO: should maybe make "time in country" depend on number of location changes, rather than timePassed.
+		 */		
+		public var timePassed:Number = 0;	// Time since game start.
+		public var country:String = 'california';
+		public const TIME_IN_CALIFORNIA:Number = 20;	// 60 + Math.floor(Math.random() * 60)
+		public const TIME_IN_MEXICO:Number = 20;
+		public const TIME_IN_OREGON:Number = 20;
+		public const TIME_IN_USA:Number = 20;
+		
+		/**
 		 * Used to move objects slower than one pixel per frame
 		 */
 		public static var oddFrame:int = 1;
@@ -79,7 +93,7 @@ package rooms
 			height = 200;		
 		
 			// Set location
-			location = FP.choose(new Forest, new Desert, new Plains, new Snow, new Beach, new Redwoods);
+			location = FP.choose(new Redwoods); // FP.choose(new Forest, new Desert, new Plains, new Snow, new Beach, new Redwoods);
 			//location = new Jungle;
 			add(location);
 			changeLocationAlarm = new MyAlarm(CHANGE_LOCATION_TIME, changeLocationChance);
@@ -106,8 +120,11 @@ package rooms
 			add(new Baby);
 			
 			// Interaction checker.
-			add(new InteractionChecker);
-			InteractionChecker.timePassed = 0;
+			if (Global.exhibition_setting) 
+			{
+				add(new InteractionChecker);
+				InteractionChecker.timePassed = 0;
+			}
 			
 			// Starting text
 			addTween(titleTextAlarm);
@@ -118,6 +135,8 @@ package rooms
 			location.gameStart(this);
 			location.creationTime = 2;
 			location.creationTimeAlarm.reset(0.1);
+			
+			//FP.console.watch(timePassed);
 		}
 		
 		/**
@@ -130,7 +149,6 @@ package rooms
 			{
 				restart();
 			}
-
 
 			// Testing
 			if (Input.pressed(Key.C))
@@ -146,6 +164,11 @@ package rooms
 			
 			// Update entities
 			super.update();
+			
+			// Update time passed.
+			timePassed += FP.elapsed;
+			//FP.console.log("timePassed:" + timePassed);
+			FP.console.log("country: " + country + " | timePassed: " + timePassed);			
 			
 			// Flip oddFrame every frame
 			oddFrame *= -1;
@@ -169,7 +192,6 @@ package rooms
 			{
 				fourthFrame += 1;
 			}
-			
 		}		
 		
 		/**
@@ -177,11 +199,83 @@ package rooms
 		 */
 		public function changeLocation():void
 		{
+			trace('change location');
+			
+			// Check change country
+			switch (country)
+			{
+				case 'california':
+					if (timePassed > TIME_IN_CALIFORNIA) 
+					{
+						trace('change country yes');
+						country = 'mexico';
+					}
+					else 
+					{
+						trace('change country no');
+					}
+					break;
+				case 'mexico':
+					if (timePassed > TIME_IN_CALIFORNIA + TIME_IN_MEXICO) 
+					{
+						trace('change country yes');
+						country = 'oregon';
+					}
+					else 
+					{
+						trace('change country no');
+					}					
+					break;
+				case 'oregon':
+					if (timePassed > TIME_IN_CALIFORNIA + TIME_IN_MEXICO + TIME_IN_OREGON) 
+					{
+						trace('change country yes');
+						country = 'usa';
+					}
+					else 
+					{
+						trace('change country no');
+					}					
+					break;
+				case 'usa':
+					if (timePassed > TIME_IN_CALIFORNIA + TIME_IN_MEXICO + TIME_IN_OREGON + TIME_IN_USA) 
+					{
+						trace('change country yes');
+						country = 'norway';
+					}		
+					else 
+					{
+						trace('change country no');
+					}					
+					break;	
+				default:
+					break;
+			}
+			
 			//trace('Changing location');
 			var newLocation:Location;
 			do 
 			{
-				newLocation = FP.choose(new Forest, new Desert, new Plains, new Snow, new Beach, new Redwoods);
+				switch (country)
+				{
+					case 'california':
+						newLocation = FP.choose(new Redwoods);
+						break;
+					case 'mexico':
+						newLocation = FP.choose(new Desert);
+						break;
+					case 'oregon':
+						newLocation = FP.choose(new Beach);
+						break;
+					case 'usa':
+						newLocation = FP.choose(new Plains);
+						break;
+					case 'norway':
+					default:
+						newLocation = FP.choose(new Snow);
+						break;
+				}
+				
 				//newLocation = FP.choose(new Forest, new Beach);
 			} 
 			while (newLocation.type == this.location.type);

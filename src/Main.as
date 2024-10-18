@@ -3,6 +3,7 @@
 	import net.flashpunk.*;
 	import rooms.*;
 	import game.*;
+	import net.flashpunk.utils.Key;
 	
 	public class Main extends Engine
 	{
@@ -20,7 +21,11 @@
 			//FP.screen.y = (1080 - FP.height * FP.screen.scale) / 2;
 			
 			// Console for debugging
-			//FP.console.enable();					
+			if (Global.testing) 
+			{
+				FP.console.enable();		
+				FP.console.toggleKey = Key.F1;
+			}
 			
 			FP.world = new MyWorld;
 		}

@@ -110,7 +110,7 @@ package game
 				}
 			}
 			
-			trace('baby created');
+			//trace('baby created');
 			state = STATE_AWAKE;
 			//startCryingAlarm.active = false;		
 		}
@@ -202,11 +202,11 @@ package game
 		 * STATE_AWAKE alarm callback.
 		 */		
 		public function chanceOfCoo():void {
-			trace('coo (maybe)');
+			//trace('coo (maybe)');
 			if (state == STATE_AWAKE)
 			{
 				if (FP.random < 0.25 && !babySoundPlaying() && !cryingSoundPlaying()) {
-					trace('yes play coo sound');
+					//trace('yes play coo sound');
 					var sound:Sfx = playRandomBabySound();
 				}
 				cooAlarm.reset(DEFAULT_COO_INTERVAL);
@@ -221,7 +221,7 @@ package game
 		 * STATE_CRYING alarm callback.
 		 */
 		public function cry():void {
-			trace('cry');
+			//trace('cry');
 			if (Player.timeSinceWalking > 1)
 			{
 				// Not walking: cry more.
@@ -237,7 +237,7 @@ package game
 				
 				// Stop crying.
 				if (cryInterval > DEFAULT_CRY_INTERVAL + 1) {
-					trace('stopCrying');
+					//trace('stopCrying');
 					state = STATE_AWAKE;
 					cryInterval = DEFAULT_CRY_INTERVAL;
 					cryAlarm.active = false;
@@ -253,7 +253,7 @@ package game
 			else {
 				cryAlarm.reset(cryInterval);
 			}			
-			trace('cryInterval: ' + cryInterval);
+			//trace('cryInterval: ' + cryInterval);
 		}	
 		
 		public function releaseZZZ():void 
@@ -303,7 +303,7 @@ package game
 		{
 			//trace('crying sound array length: ' + cryingSoundArray.length);
 			var idx:int = Math.floor(Math.random() * cryingSoundArray.length);
-			trace(idx);
+			//trace(idx);
 			var sound:Sfx = cryingSoundArray[idx];		
 			sound.play(vol);
 			return sound;
@@ -313,7 +313,7 @@ package game
 		{
 			//trace('baby sound array length: ' + babySoundArray.length);
 			var idx:int = Math.floor(Math.random() * babySoundArray.length);
-			trace(idx);
+			//trace(idx);
 			var sound:Sfx = babySoundArray[idx];		
 			sound.play(vol);
 			return sound;
