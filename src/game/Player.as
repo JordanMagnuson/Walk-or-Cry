@@ -33,8 +33,13 @@ package game
 		 */
 		[Embed(source='../../assets/walking_spritesheet.png')] private const STROLLER:Class;
 		public var sprStroller:Spritemap = new Spritemap(STROLLER, 32, 17);
+		
 		[Embed(source='../../assets/walking_frontpack_spritesheet.png')] private const FRONTPACK:Class;
 		public var sprFrontPack:Spritemap = new Spritemap(FRONTPACK, 10, 17);	
+		
+		[Embed(source = "../../assets/man_walking_with_small_child.png")] private const WITH_SMALL_CHILD:Class;
+		public var SprWithSmallChild:Spritemap = new Spritemap(WITH_SMALL_CHILD, 24, 17);	
+		
 		public var sprPlayer:Spritemap;
 		
 		/**
