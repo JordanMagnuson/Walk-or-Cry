@@ -115,9 +115,8 @@ package rooms
 			add(new Day(this, false));
 			
 			
-			// Player and baby.
+			// Player and baby. (Baby added from Player class.)
 			add(Global.player = new Player);
-			add(new Baby);
 			
 			// Interaction checker.
 			if (Global.exhibition_setting) 
@@ -168,7 +167,8 @@ package rooms
 			// Update time passed.
 			timePassed += FP.elapsed;
 			//FP.console.log("timePassed:" + timePassed);
-			FP.console.log("country: " + country + " | timePassed: " + timePassed);			
+			//FP.console.log("country: " + country + " | timePassed: " + timePassed);	
+			FP.console.log("baby state: " + Global.player.baby.state);
 			
 			// Flip oddFrame every frame
 			oddFrame *= -1;
@@ -262,6 +262,7 @@ package rooms
 						newLocation = FP.choose(new Redwoods);
 						break;
 					case 'mexico':
+						Global.player.baby.age = Baby.AGE_SMALL_CHILD;	// Baby grows.
 						newLocation = FP.choose(new Desert);
 						break;
 					case 'oregon':

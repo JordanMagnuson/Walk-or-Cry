@@ -14,12 +14,18 @@ package game
 	
 	public class Baby extends Entity
 	{
+		// Age.
+		public var age:int;
+		public static const AGE_BABY:int = 1;
+		public static const AGE_SMALL_CHILD:int = 2;
+		public static const AGE_LARGE_CHILD:int = 3;
+		
 		// States.
 		public var state:int;
-		public const STATE_AWAKE:int = 1;
-		public const STATE_ASLEEP:int = 2;
-		public const STATE_CRYING:int = 3;
-		public const STATE_ALARMED:int = 4;
+		public static const STATE_AWAKE:int = 1;
+		public static const STATE_ASLEEP:int = 2;
+		public static const STATE_CRYING:int = 3;
+		public static const STATE_ALARMED:int = 4;
 		
 		// State contants.
 		public static const DEFAULT_CRY_INTERVAL:Number = 5;
@@ -111,6 +117,7 @@ package game
 			}
 			
 			//trace('baby created');
+			age = AGE_BABY;
 			state = STATE_AWAKE;
 			//startCryingAlarm.active = false;		
 		}
@@ -214,13 +221,12 @@ package game
 			else {
 				cooAlarm.active = false;
 			}
-			
 		}
 		
 		/**
 		 * STATE_CRYING alarm callback.
 		 */
-		public function cry():void {
+		public function cry():void {			
 			//trace('cry');
 			if (Player.timeSinceWalking > 1)
 			{
@@ -261,7 +267,7 @@ package game
 			//var randX:Number = x + FP.choose( -1, 1) * FP.rand(5);
 			if (state == STATE_ASLEEP) 
 			{
-				if (Global.babyType == "stroller") {
+				if (age == AGE_BABY) {
 					FP.world.add(new Z(x, y - 18));
 				}
 				else {
@@ -305,7 +311,15 @@ package game
 			var idx:int = Math.floor(Math.random() * cryingSoundArray.length);
 			//trace(idx);
 			var sound:Sfx = cryingSoundArray[idx];		
-			sound.play(vol);
+			// Don't actually play the sound unless age is baby.
+			if (age == AGE_BABY) 
+			{
+				sound.play(vol);
+			}
+			else
+			{
+				trace('not baby: silent cry');
+			}			
 			return sound;
 		}		
 		
@@ -315,7 +329,15 @@ package game
 			var idx:int = Math.floor(Math.random() * babySoundArray.length);
 			//trace(idx);
 			var sound:Sfx = babySoundArray[idx];		
-			sound.play(vol);
+			// Don't actually play the sound unless age is baby.
+			if (age == AGE_BABY) 
+			{
+				sound.play(vol);
+			}
+			else
+			{
+				trace('not baby: silent coo');
+			}
 			return sound;
 		}
 	}

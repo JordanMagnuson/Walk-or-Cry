@@ -31,14 +31,18 @@ package game
 		/**
 		 * Player graphic
 		 */
-		[Embed(source='../../assets/walking_spritesheet.png')] private const STROLLER:Class;
-		public var sprStroller:Spritemap = new Spritemap(STROLLER, 32, 17);
+		[Embed(source="../../assets/stroller.png")] private const STROLLER:Class;
+		public var sprStroller:Spritemap = new Spritemap(STROLLER, 48, 17);
 		
-		[Embed(source='../../assets/walking_frontpack_spritesheet.png')] private const FRONTPACK:Class;
-		public var sprFrontPack:Spritemap = new Spritemap(FRONTPACK, 10, 17);	
+		// Forntpack sprite alternative to stroller for youngest baby.
+		//[Embed(source='../../assets/walking_frontpack_spritesheet.png')] private const FRONTPACK:Class;
+		//public var sprFrontPack:Spritemap = new Spritemap(FRONTPACK, 10, 17);	
 		
-		[Embed(source = "../../assets/man_walking_with_small_child.png")] private const WITH_SMALL_CHILD:Class;
-		public var SprWithSmallChild:Spritemap = new Spritemap(WITH_SMALL_CHILD, 24, 17);	
+		[Embed(source="../../assets/holding_hands_with_small_child.png")] private const HOLDING_HANDS_WITH_SMALL_CHILD:Class;
+		public var sprHoldingHandsWithSmallChild:Spritemap = new Spritemap(HOLDING_HANDS_WITH_SMALL_CHILD, 48, 17);	
+		
+		[Embed(source = "../../assets/holding_small_child.png")] private const HOLDING_SMALL_CHILD:Class;
+		public var sprHoldingSmallChild:Spritemap = new Spritemap(HOLDING_SMALL_CHILD, 48, 17);	
 		
 		public var sprPlayer:Spritemap;
 		
@@ -48,31 +52,39 @@ package game
 		[Embed(source='../../assets/sounds.swf', symbol='walking.wav')] private const SND_WALKING:Class;
 		public var sndWalking:Sfx = new Sfx(SND_WALKING);			
 		
+		/**
+		 * Baby
+		 */
+		public var baby:Baby;
+		
 		public function Player() 
 		{
-			if (Global.babyType == "stroller") {
-				sprPlayer = sprStroller;
-			}
-			else {
-				sprPlayer = sprFrontPack;
-			}
-			
-			// Graphic
-			sprPlayer.add("stand", [0], 20, false);
-			animSpeed = Player.SPEED / 10;
-			sprPlayer.add("walk", [0, 1, 2, 3], animSpeed, true);
-			sprPlayer.add("sleep", [4], 0, false);
-			
-			graphic = sprPlayer;
-			sprPlayer.play("stand");
-			
-			// Hit box
-			sprPlayer.originX = 0;
-			sprPlayer.originY = sprPlayer.height;
-			sprPlayer.x = 0;
-			sprPlayer.y = -sprPlayer.originY;	
-			
-			setHitbox(sprPlayer.width, sprPlayer.height, sprPlayer.originX, sprPlayer.originY);				
+			// Set up spritesheets and animations.
+			animSpeed = Player.SPEED / 10;			
+			// STROLLER
+			sprStroller.add("stand", [0], 20, false);
+			sprStroller.add("walk", [0, 1, 2, 3], animSpeed, true);
+			sprStroller.add("sleep", [4], 0, false);
+			sprStroller.originX = 16;
+			sprStroller.originY = sprStroller.height;
+			sprStroller.x = -16;
+			sprStroller.y = -sprStroller.originY;				
+			// HOLDING_HANDS_WITH_SMALL_CHILD
+			sprHoldingHandsWithSmallChild.add("stand", [0], 20, false);
+			sprHoldingHandsWithSmallChild.add("walk", [0, 1, 2, 3], animSpeed, true);
+			sprHoldingHandsWithSmallChild.add("sleep", [4], 0, false);		
+			sprHoldingHandsWithSmallChild.originX = 16;
+			sprHoldingHandsWithSmallChild.originY = sprHoldingHandsWithSmallChild.height;
+			sprHoldingHandsWithSmallChild.x = -16;
+			sprHoldingHandsWithSmallChild.y = -sprHoldingHandsWithSmallChild.originY;				
+			// HOLDING_SMALL_CHILD
+			sprHoldingSmallChild.add("stand", [0], 20, false);
+			sprHoldingSmallChild.add("walk", [0, 1, 2, 3], animSpeed, true);
+			sprHoldingSmallChild.add("sleep", [4], 0, false);			
+			sprHoldingSmallChild.originX = 16;
+			sprHoldingSmallChild.originY = sprHoldingSmallChild.height;
+			sprHoldingSmallChild.x = -16;
+			sprHoldingSmallChild.y = -sprHoldingSmallChild.originY;				
 			
 			// Location
 			x = 50;
@@ -92,11 +104,20 @@ package game
 			Player.sleeping = false;			
 			addTween(zzzAlarm);	
 			zzzAlarm.start();
+			
+			// Add the baby here, so we can reference it easily from within the Player class.
+			FP.world.add(baby = new Baby);
+			
+			// Set starting sprite.
+			updateSprite();
+			sprPlayer.play("stand");			
 		}
 		
 		override public function update():void 
 		{
 			super.update();
+			
+			// Walking sound.
 			if (Player.walking && !sndWalking.playing)
 			{
 				sndWalking.loop(0.5);
@@ -124,22 +145,41 @@ package game
 			}
 			
 			// Walking?
-			if (Global.testing)
-			{
-				lastPressedAgo = 0;
-			}
-			if (lastPressedAgo == 0) 
-			{
-				//trace(Input.keyString.substr(-1,1));
-				walking = true;
-				sleeping = false;
-				sprPlayer.play("walk");
-				if (!startedWalking) {
-					startedWalking = true;
+			if (!Global.testing) {
+				// Regular use case - not testing.
+				if (lastPressedAgo == 0) 
+				{
+					//trace(Input.keyString.substr(-1,1));
+					walking = true;
+					sleeping = false;
+					//sprPlayer.play("walk");
+					if (!startedWalking) {
+						startedWalking = true;
+					}
+				}
+				else if (lastPressedAgo > 0.6) {
+					walking = false;
 				}
 			}
-			else if (lastPressedAgo > 0.6) {
-				walking = false;
+			else {
+				// Testing / debugging: press space to toggle walking / not walking.
+				if (Input.pressed(Key.SPACE)) 
+				{
+					trace('pressed spacebar');
+					if (!walking) 
+					{
+						walking = true;
+						sleeping = false;
+						//sprPlayer.play("walk");
+						if (!startedWalking) {
+							startedWalking = true;
+						}
+					}
+					else 
+					{
+						walking = false;
+					}					
+				}
 			}
 			
 			// Keep track of how long we hae been stopped.
@@ -156,12 +196,16 @@ package game
 				sleeping = true;				
 			}
 			
+			// Update animation depending on state.
 			if (sleeping)
 			{
 				sprPlayer.play("sleep");
 			}
-			else if (!walking)
+			else if (walking)
 			{
+				sprPlayer.play("walk");
+			}
+			else {
 				sprPlayer.play("stand");
 			}
 			
@@ -173,6 +217,55 @@ package game
 				//playerDying.x = x;
 				//playerDying.y = y;
 				//FP.world.remove(this);
+			}
+			
+			// Update sprite?
+			updateSprite();
+		}
+		
+		public function updateSprite():void 
+		{
+			//trace('Player.updateSprite()');
+			var oldSprite:Spritemap = sprPlayer;
+			var newSprite:Spritemap;
+			
+			// Testing / Debugging.
+			if (Global.testing) {
+				if (Input.pressed(Key.DIGIT_1)) {
+					newSprite = sprStroller;			
+				}
+				else if (Input.pressed(Key.DIGIT_2)) {
+					newSprite = sprHoldingSmallChild;
+				}
+				else if (Input.pressed(Key.DIGIT_3)) {
+					newSprite = sprHoldingHandsWithSmallChild;
+				}				
+			}
+			
+			switch (baby.age) {
+				case Baby.AGE_BABY:
+					newSprite = sprStroller;
+					break;
+				case Baby.AGE_SMALL_CHILD:
+					// Hold the small child during sunset and night.
+					if ((FP.world as MyWorld).time == 'day' && !sleeping)
+					{
+						newSprite = sprHoldingHandsWithSmallChild;
+					}
+					else 
+					{
+						newSprite = sprHoldingSmallChild;
+					}
+					break;
+			}
+			
+			// Did sprite change?
+			if (newSprite != oldSprite) 
+			{
+				trace('Player.updateSprite() - SPRITE CHANGED');
+				sprPlayer = newSprite;
+				graphic = sprPlayer;
+				setHitbox(sprPlayer.width, sprPlayer.height, sprPlayer.originX, sprPlayer.originY);			
 			}
 		}
 		
