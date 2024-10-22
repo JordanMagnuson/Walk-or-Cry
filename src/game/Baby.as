@@ -145,6 +145,19 @@ package game
 			x = Global.player.x + 14;
 			y = Global.player.y;
 			
+			// Testing / Debugging.
+			if (Global.testing) {
+				if (Input.pressed(Key.DIGIT_1)) {
+					age = AGE_BABY;			
+				}
+				else if (Input.pressed(Key.DIGIT_2)) {
+					age = AGE_SMALL_CHILD;
+				}
+				else if (Input.pressed(Key.DIGIT_3)) {
+					age = AGE_LARGE_CHILD;
+				}				
+			}
+			
 			// STATE_AWAKE
 			// -------------------------------------------------------
 			checkState:if (state == STATE_AWAKE) 

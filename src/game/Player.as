@@ -256,19 +256,6 @@ package game
 			var oldSprite:Spritemap = sprPlayer;
 			var newSprite:Spritemap;
 			
-			// Testing / Debugging.
-			if (Global.testing) {
-				if (Input.pressed(Key.DIGIT_1)) {
-					newSprite = sprStroller;			
-				}
-				else if (Input.pressed(Key.DIGIT_2)) {
-					newSprite = sprHoldingSmallChild;
-				}
-				else if (Input.pressed(Key.DIGIT_3)) {
-					newSprite = sprHoldingHandsWithSmallChild;
-				}				
-			}
-			
 			switch (baby.age) {
 				case Baby.AGE_BABY:
 					newSprite = sprStroller;
