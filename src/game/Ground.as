@@ -21,6 +21,7 @@ package game
 		[Embed(source = '../../assets/beach/ground.png')] private const GROUND_BEACH:Class;
 		[Embed(source = "../../assets/jungle/ground_jungle.png")] private const GROUND_JUNGLE:Class;
 		[Embed(source = "../../assets/redwoods/ground_redwoods.png")] private const GROUND_REDWOODS:Class;
+		[Embed(source = "../../assets/fjords/ground_fjords.png")] private const GROUND_FJORDS:Class;
 		public var image:Image;	
 		
 		/**
@@ -53,6 +54,9 @@ package game
 				case 'redwoods':
 					image = new Image(GROUND_REDWOODS);
 					break;		
+				case 'fjords':
+					image = new Image(GROUND_FJORDS);
+					break;							
 			}
 			graphic = image;
 			

@@ -3,6 +3,7 @@ package rooms
 	import flash.net.LocalConnection;
 	import game.*;
 	import game.beach.Beach;
+	import game.fjords.Fjords;
 	import game.jungle.Jungle;
 	import game.plains.Plains;
 	import game.redwoods.Redwood;
@@ -93,7 +94,7 @@ package rooms
 			height = 200;		
 		
 			// Set location
-			location = FP.choose(new Redwoods); // FP.choose(new Forest, new Desert, new Plains, new Snow, new Beach, new Redwoods);
+			location = FP.choose(new Fjords); // FP.choose(new Forest, new Desert, new Plains, new Snow, new Beach, new Redwoods);
 			//location = new Jungle;
 			add(location);
 			changeLocationAlarm = new MyAlarm(CHANGE_LOCATION_TIME, changeLocationChance);

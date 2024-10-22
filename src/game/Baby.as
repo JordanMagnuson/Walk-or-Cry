@@ -328,7 +328,7 @@ package game
 			//trace(idx);
 			var sound:Sfx = cryingSoundArray[idx];		
 			// Don't actually play the sound unless age is baby.
-			if (age == AGE_BABY) 
+			if (age == AGE_BABY && Global.baby_should_make_sounds) 
 			{
 				sound.play(vol);
 			}
@@ -346,7 +346,7 @@ package game
 			//trace(idx);
 			var sound:Sfx = babySoundArray[idx];		
 			// Don't actually play the sound unless age is baby.
-			if (age == AGE_BABY) 
+			if (age == AGE_BABY && Global.baby_should_make_sounds) 
 			{
 				sound.play(vol);
 			}
