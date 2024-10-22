@@ -29,7 +29,7 @@ package game
 		public var zzzAlarm:Alarm = new Alarm(DEFAULT_ZZZ_INTERVAL, releaseZZZ);
 		
 		/**
-		 * Player graphic
+		 * Player graphic - BABY
 		 */
 		[Embed(source="../../assets/stroller.png")] private const STROLLER:Class;
 		public var sprStroller:Spritemap = new Spritemap(STROLLER, 48, 17);
@@ -38,11 +38,24 @@ package game
 		//[Embed(source='../../assets/walking_frontpack_spritesheet.png')] private const FRONTPACK:Class;
 		//public var sprFrontPack:Spritemap = new Spritemap(FRONTPACK, 10, 17);	
 		
+		
+		/**
+		 * Player graphic - SMALL CHILD
+		 */		
 		[Embed(source="../../assets/holding_hands_with_small_child.png")] private const HOLDING_HANDS_WITH_SMALL_CHILD:Class;
 		public var sprHoldingHandsWithSmallChild:Spritemap = new Spritemap(HOLDING_HANDS_WITH_SMALL_CHILD, 48, 17);	
 		
 		[Embed(source = "../../assets/holding_small_child.png")] private const HOLDING_SMALL_CHILD:Class;
 		public var sprHoldingSmallChild:Spritemap = new Spritemap(HOLDING_SMALL_CHILD, 48, 17);	
+		
+		/**
+		 * Player graphic - CHILD
+		 */				
+		[Embed(source="../../assets/holding_hands_with_child.png")] private const HOLDING_HANDS_WITH_CHILD:Class;
+		public var sprHoldingHandsWithChild:Spritemap = new Spritemap(HOLDING_HANDS_WITH_CHILD, 48, 17);	
+		
+		[Embed(source = "../../assets/holding_child.png")] private const HOLDING_CHILD:Class;
+		public var sprHoldingChild:Spritemap = new Spritemap(HOLDING_CHILD, 48, 17);	
 		
 		public var sprPlayer:Spritemap;
 		
@@ -72,7 +85,6 @@ package game
 			// HOLDING_HANDS_WITH_SMALL_CHILD
 			sprHoldingHandsWithSmallChild.add("stand", [0], 20, false);
 			sprHoldingHandsWithSmallChild.add("walk", [0, 1, 2, 3], animSpeed, true);
-			sprHoldingHandsWithSmallChild.add("sleep", [4], 0, false);		
 			sprHoldingHandsWithSmallChild.originX = 16;
 			sprHoldingHandsWithSmallChild.originY = sprHoldingHandsWithSmallChild.height;
 			sprHoldingHandsWithSmallChild.x = -16;
@@ -85,6 +97,21 @@ package game
 			sprHoldingSmallChild.originY = sprHoldingSmallChild.height;
 			sprHoldingSmallChild.x = -16;
 			sprHoldingSmallChild.y = -sprHoldingSmallChild.originY;				
+			// HOLDING_HANDS_WITH_CHILD
+			sprHoldingHandsWithChild.add("stand", [0], 20, false);
+			sprHoldingHandsWithChild.add("walk", [0, 1, 2, 3], animSpeed, true);	
+			sprHoldingHandsWithChild.originX = 16;
+			sprHoldingHandsWithChild.originY = sprHoldingHandsWithChild.height;
+			sprHoldingHandsWithChild.x = -16;
+			sprHoldingHandsWithChild.y = -sprHoldingHandsWithChild.originY;				
+			// HOLDING_CHILD
+			sprHoldingChild.add("stand", [0], 20, false);
+			sprHoldingChild.add("walk", [0, 1, 2, 3], animSpeed, true);
+			sprHoldingChild.add("sleep", [4], 0, false);			
+			sprHoldingChild.originX = 16;
+			sprHoldingChild.originY = sprHoldingChild.height;
+			sprHoldingChild.x = -16;
+			sprHoldingChild.y = -sprHoldingChild.originY;						
 			
 			// Location
 			x = 50;
@@ -257,6 +284,16 @@ package game
 						newSprite = sprHoldingSmallChild;
 					}
 					break;
+				case Baby.AGE_LARGE_CHILD:
+					// Hold the small child during sunset and night.
+					if ((FP.world as MyWorld).time == 'night' || sleeping)
+					{
+						newSprite = sprHoldingChild;
+					}
+					else 
+					{
+						newSprite = sprHoldingHandsWithChild;
+					}					
 			}
 			
 			// Did sprite change?

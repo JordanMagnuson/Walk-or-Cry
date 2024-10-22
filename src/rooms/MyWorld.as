@@ -266,6 +266,7 @@ package rooms
 						newLocation = FP.choose(new Desert);
 						break;
 					case 'oregon':
+						Global.player.baby.age = Baby.AGE_LARGE_CHILD;	// Baby grows.
 						newLocation = FP.choose(new Beach);
 						break;
 					case 'usa':

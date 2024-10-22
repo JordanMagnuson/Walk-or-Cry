@@ -270,8 +270,11 @@ package game
 				if (age == AGE_BABY) {
 					FP.world.add(new Z(x, y - 18));
 				}
-				else {
+				else if (age == AGE_SMALL_CHILD) {
 					FP.world.add(new Z(x - 4, y - 13));
+				}
+				else if (age == AGE_LARGE_CHILD) {
+					FP.world.add(new Z(x - 18, y - 15));
 				}
 				zzzAlarm.reset(DEFAULT_ZZZ_INTERVAL);
 			}
