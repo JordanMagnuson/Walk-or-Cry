@@ -16,7 +16,7 @@ package game
 		public static const DURATION:int = 30;
 		public static const FADE_IN_DURATION:Number = 6;
 		public static const FADE_OUT_DURATION:Number = 10;
-		public static const MAX_ALPHA:Number = 0.7;
+		public static const MAX_ALPHA:Number = 0.5;
 		
 		public var fadeTween:ColorTween;
 		public var durationAlarm:Alarm = new Alarm(DURATION, complete);	
