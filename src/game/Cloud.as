@@ -34,14 +34,14 @@ package game
 			rawSprite = chooseSprite(mySpriteCollection);
 			
 			// Super
-			super(rawSprite, 'mid', true);
+			super(rawSprite, 'far', true);
 			type = 'cloud';
 			
 			// Random height and speed within params
 			y = MIN_HEIGHT + FP.random * (MAX_HEIGHT - MIN_HEIGHT);
 			speed = MIN_SPEED + FP.random * (MAX_SPEED - MIN_SPEED);
 			
-			layer = 105;
+			layer = 200;
 		}
 		
 		override public function update():void 

@@ -5,6 +5,7 @@ package game
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	import rooms.MyWorld;
+	import game.fjords.Ocean;
 	
 	public class Mountain extends Item
 	{	
@@ -23,6 +24,8 @@ package game
 		[Embed(source = '../../assets/beach/mountain02.png')] private const BEACH_MOUNTAIN02:Class;	
 		[Embed(source = "../../assets/fjords/mountain01.png")] private const FJORDS_MOUNTAIN01:Class;
 		[Embed(source = "../../assets/fjords/mountain02.png")] private const FJORDS_MOUNTAIN02:Class;
+		[Embed(source = "../../assets/fjords/large_mountain01.png")] private const FJORDS_LARGE_MOUNTAIN01:Class;
+		[Embed(source = "../../assets/fjords/large_mountain02.png")] private const FJORDS_LARGE_MOUNTAIN02:Class;		
 		
 		public function Mountain() 
 		{
@@ -45,7 +48,7 @@ package game
 					rawSprite = chooseSprite(new Array(BEACH_MOUNTAIN01, BEACH_MOUNTAIN02));	
 					break;	
 				case 'fjords':
-					rawSprite = chooseSprite(new Array(FJORDS_MOUNTAIN01, FJORDS_MOUNTAIN02));	
+					rawSprite = chooseSprite(new Array(FJORDS_MOUNTAIN01, FJORDS_MOUNTAIN02, FJORDS_LARGE_MOUNTAIN01, FJORDS_LARGE_MOUNTAIN02));	
 					break;										
 				default:
 					rawSprite = chooseSprite(new Array(FOREST_MOUNTAIN01, FOREST_MOUNTAIN02));	
@@ -53,6 +56,13 @@ package game
 			}			
 			super(rawSprite, 'far', true);
 			type = 'mountain';
+			
+			if ((FP.world as MyWorld).location.type == 'fjords') 
+			{
+				y = Ocean.Y_TOP;
+				type = 'elevated_mountain';
+				layer += 10;	// Elevated mountains should be more distant (appear behind) other mountains.
+			}
 		}
 		
 		override public function update():void 

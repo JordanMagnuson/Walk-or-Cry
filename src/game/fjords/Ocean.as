@@ -13,13 +13,13 @@ package game.fjords
 	 */
 	public class Ocean extends Entity
 	{
-		
-		public static const FADE_IN_DURATION:Number = 12;
+		public static const Y_TOP:Number = 152;					// Top of the ocean.
+		public static const FADE_IN_DURATION:Number = 8;
 		public static const FADE_OUT_DURATION:Number = 8;
 		
-		public const SPEED:Number = 10;
-		
 		public var fadeTween:ColorTween;
+		public var locationEnded:Boolean = false;	// If the location that this ocean is attached to has ended. (Time to think about fading out ocean.)
+		public var fadingOut:Boolean = false;
 		
 		/**
 		 * Direction is 1 or -1, makes the wase move back and forth;
@@ -60,6 +60,19 @@ package game.fjords
 		{
 			super.update();
 			(graphic as Image).alpha = fadeTween.alpha;
+			
+			if (locationEnded && !fadingOut) 
+			{
+				// Once location has ended, check to see if there are any elevated mountains present.
+				// If so, wait for these to go offscreen before fading out ocean. (Otherwise elevated mountains are left hanging in air.)
+				var elevatedMountainCount:uint = FP.world.typeCount('elevated_mountain');
+				FP.console.log("location ended. Elevated mountain count: " + elevatedMountainCount);
+				if (elevatedMountainCount == 0) {
+					trace('no more elevated mountains. fade out ocean');
+					fadeOut();
+					fadingOut = true;
+				}
+			}
 		}		
 		
 		public function fadeIn():void
@@ -81,7 +94,6 @@ package game.fjords
 		{
 			FP.world.remove(this);
 		}
-		
 	}
 
 }

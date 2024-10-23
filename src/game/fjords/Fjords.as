@@ -60,21 +60,21 @@ package game.fjords
 			creationNumber = FP.random;	
 			
 			// Mid distance
-			if (FP.random > 0.2 && Player.walking)
-			{
-				if (creationNumber < 0.01)
-				{
-					FP.world.add(new River);
-				}
-				else if (creationNumber < 0.05)
-				{
-					FP.world.add(new PinetreeSideways);
-				}
-				else if (creationNumber < 1)
-				{
-					FP.world.add(new Pinetree);
-				}
-			}
+			//if (FP.random > 0.2 && Player.walking)
+			//{
+				//if (creationNumber < 0.01)
+				//{
+					//FP.world.add(new River);
+				//}
+				//else if (creationNumber < 0.05)
+				//{
+					//FP.world.add(new PinetreeSideways);
+				//}
+				//else if (creationNumber < 1)
+				//{
+					//FP.world.add(new Pinetree);
+				//}
+			//}
 			
 			// Sounds
 			if (FP.random > 0.4)
@@ -113,7 +113,7 @@ package game.fjords
 		
 		override public function removed():void
 		{
-			ocean.fadeOut();		
+			ocean.locationEnded = true;
 		}
 
 		/**

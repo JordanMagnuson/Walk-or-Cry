@@ -169,7 +169,7 @@ package rooms
 			timePassed += FP.elapsed;
 			//FP.console.log("timePassed:" + timePassed);
 			//FP.console.log("country: " + country + " | timePassed: " + timePassed);	
-			FP.console.log("baby state: " + Global.player.baby.state);
+			//FP.console.log("baby state: " + Global.player.baby.state);
 			
 			// Flip oddFrame every frame
 			oddFrame *= -1;
@@ -208,7 +208,7 @@ package rooms
 				case 'california':
 					if (timePassed > TIME_IN_CALIFORNIA) 
 					{
-						trace('change country yes');
+						trace('change country to mexico');
 						country = 'mexico';
 					}
 					else 
@@ -219,7 +219,7 @@ package rooms
 				case 'mexico':
 					if (timePassed > TIME_IN_CALIFORNIA + TIME_IN_MEXICO) 
 					{
-						trace('change country yes');
+						trace('change country to oregon');
 						country = 'oregon';
 					}
 					else 
@@ -230,7 +230,7 @@ package rooms
 				case 'oregon':
 					if (timePassed > TIME_IN_CALIFORNIA + TIME_IN_MEXICO + TIME_IN_OREGON) 
 					{
-						trace('change country yes');
+						trace('change country usa');
 						country = 'usa';
 					}
 					else 
@@ -241,7 +241,7 @@ package rooms
 				case 'usa':
 					if (timePassed > TIME_IN_CALIFORNIA + TIME_IN_MEXICO + TIME_IN_OREGON + TIME_IN_USA) 
 					{
-						trace('change country yes');
+						trace('change country norway');
 						country = 'norway';
 					}		
 					else 
@@ -250,6 +250,7 @@ package rooms
 					}					
 					break;	
 				default:
+					country = 'norway'
 					break;
 			}
 			
@@ -275,7 +276,7 @@ package rooms
 						break;
 					case 'norway':
 					default:
-						newLocation = FP.choose(new Snow);
+						newLocation = FP.choose(new Fjords);
 						break;
 				}
 				
