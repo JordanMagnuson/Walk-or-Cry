@@ -61,7 +61,12 @@ package game
 			{
 				y = Ocean.Y_TOP;
 				type = 'elevated_mountain';
-				layer += 10;	// Elevated mountains should be more distant (appear behind) other mountains.
+				if (rawSprite == FJORDS_LARGE_MOUNTAIN01 || rawSprite == FJORDS_LARGE_MOUNTAIN01) {
+					if (FP.random < 0.5) {
+						layer = 200;	// Random chance that large mountains are set to cloud layer (to give some epic quality).
+					}					
+				}
+				layer += 10;			// Elevated mountains should be more distant (appear behind) other mountains (and/or clouds)
 			}
 		}
 		
