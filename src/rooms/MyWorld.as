@@ -145,22 +145,25 @@ package rooms
 		override public function update():void 
 		{
 			
-			if (Input.pressed(Key.R)) 
+			if (Global.testing) 
 			{
-				restart();
-			}
+				if (Input.pressed(Key.R)) 
+				{
+					restart();
+				}
 
-			// Testing
-			if (Input.pressed(Key.C))
- 			{
-				trace('c presesd');
-				this.changeLocation();
+				// Testing
+				if (Input.pressed(Key.C))
+				{
+					trace('c presesd');
+					this.changeLocation();
+				}
+				else if (Input.pressed(Key.N))
+				{
+					trace('n presesd');
+					advanceTime();
+				}			
 			}
-			else if (Input.pressed(Key.N))
- 			{
-				trace('n presesd');
-				advanceTime();
-			}			
 			
 			// Update entities
 			super.update();
@@ -200,6 +203,7 @@ package rooms
 		 */
 		public function changeLocation():void
 		{
+			return;
 			trace('change location');
 			
 			// Check change country

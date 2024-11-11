@@ -17,7 +17,7 @@ package game
 		override public function update():void
 		{
 			// Only update the myAlarms if the player is walking
-			if (Player.walking) 
+			if (Player.walking && !Global.worldStopped) 
 			{ 
 				super.update();
 			}		

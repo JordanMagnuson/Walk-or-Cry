@@ -53,7 +53,7 @@ package game.redwoods
 			creationNumber = FP.random;
 			
 			// Mid distance
-			if (FP.random > 0.2 && Player.walking)
+			if (FP.random > 0.2 && Player.walking && !Global.worldStopped)
 			{
 				if (creationNumber < 0.01)
 				{

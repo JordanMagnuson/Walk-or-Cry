@@ -81,7 +81,7 @@ package game
 			// Move ground left
 			if (x > -image.width/2)
 			{
-				if (Player.walking)
+				if (Player.walking && !Global.worldStopped)
 				{
 					if (MyWorld.fourthFrame == 1)
 					{

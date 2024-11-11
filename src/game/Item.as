@@ -107,7 +107,7 @@ package game
 			}
 			
 			// Item speed
-			if (Player.walking)
+			if (Player.walking && !Global.worldStopped)
 			{
 				switch (distance)
 				{

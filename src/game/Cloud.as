@@ -62,7 +62,7 @@ package game
 			if (MyWorld.fourthFrame == 4)
 			{
 				//x -= 1;
-				if (Player.walking) {
+				if (Player.walking && !Global.worldStopped) {
 					x -= 1;
 				}
 				else {

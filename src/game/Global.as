@@ -12,6 +12,9 @@ package game
 		
 		public static var player:Player;
 		public static var babyType:String = "stroller";
+		
+		public static var worldStopped:Boolean = false;
+		public static var timeInFjords:Number = 0;
 	}
 
 }

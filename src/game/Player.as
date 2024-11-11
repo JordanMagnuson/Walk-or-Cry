@@ -246,6 +246,17 @@ package game
 				//FP.world.remove(this);
 			}
 			
+			// If the world is stopped (end of game), the camera no longer follows the player,
+			// so player moves instead of the game world, eventually walking off screen.
+			if (walking && Global.worldStopped)
+			{
+				// Move mid distance objects exacly 1 pixel every other frame.
+				if (MyWorld.oddFrame == 1)
+				{
+					x += (Player.SPEED / 100);
+				}
+			}
+			
 			// Update sprite?
 			updateSprite();
 		}

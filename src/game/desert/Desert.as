@@ -46,7 +46,7 @@ package game.desert
 			creationNumber = FP.random;			
 			
 			// Mid Distance
-			if (FP.random > 0.25 && Player.walking)
+			if (FP.random > 0.25 && Player.walking && !Global.worldStopped)
 			{
 				if (creationNumber < 0.01 && Pyramids.seen == false)
 				{

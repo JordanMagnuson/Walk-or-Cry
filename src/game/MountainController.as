@@ -5,6 +5,8 @@ package game
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.tweens.misc.Alarm;
 	import game.MyAlarm;
+	import net.flashpunk.utils.Key;
+	import net.flashpunk.utils.Input;
 	
 	/**
 	 * Class that controls how frequently mountains are released.
@@ -47,17 +49,31 @@ package game
 		
 		override public function update():void 
 		{
+			if (Global.testing) 
+			{
+				if (Input.pressed(Key.M)) 
+				{
+					releaseEndMountain();
+					trace('End Mountain released');
+				}
+			}
+				
 			super.update();
 		}
 		
 		public function releaseMountain():void
 		{
-			if (Player.walking) 
+			if (Player.walking && !Global.worldStopped) 
 			{
 				//trace('release mountain');
 				mountainAlarm.reset(mountainReleaseTime);
 				FP.world.add(new Mountain);
 			}
+		}
+		
+		public function releaseEndMountain():void
+		{
+			FP.world.add(new MountainEnd);
 		}
 		
 		public function changeMountainDensity():void

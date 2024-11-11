@@ -47,7 +47,7 @@ package game.plains
 			creationNumber = FP.random;	
 			
 			// Mid Distance
-			if (FP.random > 0.25 && Player.walking)
+			if (FP.random > 0.25 && Player.walking && !Global.worldStopped)
 			{		
 				if (creationNumber < 0.005 && FlowerTree.seen == false)
 				{
